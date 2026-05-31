@@ -83,4 +83,4 @@ ytm-shell ships with multiple themes. The active theme is injected into the YouT
 
 ## License
 
-[MIT](LICENSE)
+[MIT](LICENSE.md)
