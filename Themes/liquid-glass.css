@@ -1,0 +1,17 @@
+﻿/*
+ * Liquid Glass
+ * deep navy base with frosted blue glass surfaces
+ * depends on: base/*, components/*
+ */
+
+:root {
+    --lg-bg-base:        #050c1e;
+    --lg-surface-nav:    rgba(10, 20, 50, 0.6);
+    --lg-surface-player: rgba(8, 16, 45, 0.75);
+    --lg-surface-mini:   rgba(8, 16, 40, 0.7);
+    --lg-surface-search: rgba(8, 18, 50, 0.96);
+    --lg-accent:         rgba(100, 160, 255, 1);
+    --lg-accent-dim:     rgba(100, 160, 255, 0.2);
+    --lg-accent-glow:    rgba(40, 80, 200, 0.15);
+    --lg-immersive-opacity: 0.80;
+}

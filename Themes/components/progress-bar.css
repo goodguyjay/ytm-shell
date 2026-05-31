@@ -1,0 +1,11 @@
+div#progressContainer.tp-yt-paper-progress {
+    background: rgba(100, 160, 255, 0.2) !important;
+}
+
+div#primaryProgress.tp-yt-paper-progress {
+    background: rgb(120, 180, 255) !important;
+}
+
+div#secondaryProgress.tp-yt-paper-progress {
+    background: rgba(100, 160, 255, 0.35) !important;
+}

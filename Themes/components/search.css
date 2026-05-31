@@ -1,0 +1,8 @@
+div#suggestion-list.ytmusic-search-box,
+ytmusic-search-suggestions-section.ytmusic-search-box,
+ytmusic-search-suggestion.ytmusic-search-suggestions-section {
+    background: rgba(8, 18, 50, 0.96) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    border: 0.5px solid rgba(100, 160, 255, 0.15) !important;
+}

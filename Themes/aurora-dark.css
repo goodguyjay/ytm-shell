@@ -1,0 +1,102 @@
+﻿:root {
+    --ytmusic-background: transparent;
+    --dark-theme-background-color: transparent;
+    --primary-background-color: transparent;
+    --yt-frosted-glass-backdrop-filter-override: blur(36px) saturate(220%) hue-rotate(15deg);
+    --ytmusic-scrollbar-width: 4px;
+}
+
+body { background: #100820 !important; }
+div#nav-bar-background.ytmusic-app-layout {
+    background: rgba(20, 8, 48, 0.88) !important;
+    box-shadow: 0 1px 0 rgba(160, 80, 255, 0.4),
+    0 0 40px rgba(120, 40, 220, 0.15) !important;
+}
+
+ytmusic-app,
+ytmusic-app-layout,
+ytmusic-browse-response,
+ytmusic-section-list-renderer,
+ytmusic-tab-renderer {
+    background: transparent !important;
+}
+
+div#nav-bar-background.ytmusic-app-layout {
+    background: rgba(18, 10, 38, 0.75) !important;
+    backdrop-filter: blur(36px) saturate(220%) !important;
+    -webkit-backdrop-filter: blur(36px) saturate(220%) !important;
+    box-shadow: 0 1px 0 rgba(140, 80, 255, 0.15) !important;
+}
+div#nav-bar-divider.ytmusic-app-layout {
+    background: rgba(140, 80, 255, 0.15) !important;
+}
+div#mini-guide-background.ytmusic-app-layout {
+    background: rgba(12, 6, 28, 0.82) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+}
+
+tp-yt-paper-item.ytmusic-guide-entry-renderer {
+    background: transparent !important;
+    border-radius: 10px !important;
+    transition: background 0.15s ease !important;
+}
+tp-yt-paper-item.ytmusic-guide-entry-renderer:hover {
+    background: rgba(120, 60, 220, 0.12) !important;
+}
+
+ytmusic-player-bar {
+    background: rgba(14, 8, 30, 0.88) !important;
+    backdrop-filter: blur(40px) saturate(180%) !important;
+    -webkit-backdrop-filter: blur(40px) saturate(180%) !important;
+    border-top: 0.5px solid rgba(140, 80, 255, 0.2) !important;
+    box-shadow: 0 -4px 30px rgba(100, 40, 200, 0.12) !important;
+}
+
+div#progressContainer.tp-yt-paper-progress {
+    background: rgba(140, 80, 255, 0.2) !important;
+}
+div#primaryProgress.tp-yt-paper-progress {
+    background: rgb(160, 100, 255) !important;
+}
+div#secondaryProgress.tp-yt-paper-progress {
+    background: rgba(140, 80, 255, 0.35) !important;
+}
+
+ytmusic-chip-cloud-chip-renderer {
+    background: rgba(100, 50, 200, 0.1) !important;
+    border: 0.5px solid rgba(140, 80, 255, 0.2) !important;
+    border-radius: 20px !important;
+}
+ytmusic-chip-cloud-chip-renderer:hover {
+    background: rgba(120, 70, 220, 0.18) !important;
+}
+ytmusic-chip-cloud-chip-renderer[selected] {
+    background: rgba(140, 80, 255, 0.28) !important;
+    border-color: rgba(170, 110, 255, 0.5) !important;
+    box-shadow: 0 0 12px rgba(140, 80, 255, 0.2) !important;
+}
+
+div#suggestion-list.ytmusic-search-box,
+ytmusic-search-suggestions-section.ytmusic-search-box,
+ytmusic-search-suggestion.ytmusic-search-suggestions-section {
+    background: rgba(16, 8, 36, 0.95) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+}
+
+img.yt-img-shadow,
+ytmusic-thumbnail-renderer img { border-radius: 10px !important; }
+
+ytmusic-two-row-item-renderer:hover,
+ytmusic-responsive-list-item-renderer:hover {
+    background: rgba(100, 50, 200, 0.08) !important;
+    border-radius: 8px !important;
+}
+
+::-webkit-scrollbar { width: 4px !important; }
+::-webkit-scrollbar-track { background: transparent !important; }
+::-webkit-scrollbar-thumb {
+    background: rgba(140, 80, 255, 0.3) !important;
+    border-radius: 4px !important;
+}

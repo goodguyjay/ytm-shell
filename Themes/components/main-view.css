@@ -1,0 +1,18 @@
+﻿ytmusic-app {
+    display: block !important;
+    height: 100vh !important;
+}
+
+ytmusic-app-layout {
+    height: 100% !important;
+}
+
+ytmusic-app-layout #content {
+    height: 100% !important;
+    max-width: 100% !important;
+}
+
+ytmusic-browse-response {
+    height: auto !important;
+    overflow: visible !important;
+}

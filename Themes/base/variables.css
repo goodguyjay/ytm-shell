@@ -1,0 +1,18 @@
+﻿:root {
+    --ytmusic-background: transparent;
+    --dark-theme-background-color: transparent;
+    --primary-background-color: transparent;
+    --yt-frosted-glass-backdrop-filter-override: blur(32px) saturate(180%);
+    --ytmusic-scrollbar-width: 4px;
+}
+
+ytmusic-app {
+    --ytmusic-brand-background-solid: transparent !important;
+    --yt-main-content-background: transparent !important;
+    --ytmusic-general-background: transparent !important;
+    --ytmusic-player-page-background: transparent !important;
+}
+
+body {
+    background: #050c1e !important;
+}

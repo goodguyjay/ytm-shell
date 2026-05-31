@@ -1,0 +1,75 @@
+/* transparency */
+ytmusic-app,
+ytmusic-app-layout,
+ytmusic-browse-response,
+ytmusic-tab-renderer,
+ytmusic-section-list-renderer,
+ytmusic-section-list-renderer.scroller,
+ytmusic-section-list-renderer #header,
+ytmusic-section-list-renderer #contents,
+ytmusic-two-column-browse-results-renderer,
+ytmusic-two-column-browse-results-renderer #primary,
+ytmusic-two-column-browse-results-renderer #secondary,
+ytmusic-shelf-renderer,
+ytmusic-shelf-renderer #contents,
+ytmusic-responsive-header-renderer,
+ytmusic-responsive-header-renderer #background,
+ytmusic-responsive-header-renderer .background-gradient,
+ytmusic-responsive-header-renderer .strapline,
+ytmusic-carousel-shelf-renderer,
+ytmusic-carousel-shelf-renderer #header-group,
+ytmusic-carousel,
+ul#items.ytmusic-carousel,
+ytmusic-browse-response #background,
+ytmusic-browse-response .background-gradient,
+#contents.ytmusic-browse-response,
+#contents.ytmusic-section-list-renderer,
+#content-wrapper.ytmusic-browse-response,
+.style-scope.ytmusic-browse-response#content-wrapper,
+div#background.ytmusic-item-thumbnail-overlay-renderer {
+    background: transparent !important;
+}
+
+ytmusic-background-overlay-renderer {
+    --ytmusic-background-overlay-background: transparent !important;
+    background: transparent !important;
+}
+
+/* remove pseudo-elements from sections to prevent them from interfering with the immersive background */
+ytmusic-section-list-renderer::before,
+ytmusic-section-list-renderer::after,
+ytmusic-browse-response::before,
+ytmusic-browse-response::after {
+    content: none !important;
+}
+
+.immersive-background.ytmusic-browse-response {
+    display: block !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 60vh !important;
+    background: transparent !important;
+    z-index: 0 !important;
+    pointer-events: none !important;
+    overflow: hidden !important;
+    mask-image: linear-gradient(to bottom, black 40%, transparent 100%) !important;
+    -webkit-mask-image: linear-gradient(to bottom, black 40%, transparent 100%) !important;
+}
+
+ytmusic-fullbleed-thumbnail-renderer {
+    display: block !important;
+    width: 100% !important;
+    height: 100% !important;
+    background: transparent !important;
+    opacity: var(--lg-immersive-opacity) !important;
+}
+
+ytmusic-fullbleed-thumbnail-renderer img,
+.immersive-background img {
+    object-fit: cover !important;
+    width: 100% !important;
+    height: 100% !important;
+    transform: scale(1.15) !important;
+}

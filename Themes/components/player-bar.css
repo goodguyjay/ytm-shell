@@ -1,0 +1,7 @@
+ytmusic-player-bar {
+    background: rgba(8, 16, 45, 0.75) !important;
+    backdrop-filter: blur(40px) saturate(160%) !important;
+    -webkit-backdrop-filter: blur(40px) saturate(160%) !important;
+    border-top: 0.5px solid rgba(100, 160, 255, 0.2) !important;
+    box-shadow: 0 -4px 40px rgba(40, 80, 200, 0.15) !important;
+}

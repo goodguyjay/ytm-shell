@@ -1,0 +1,98 @@
+﻿:root {
+    --ytmusic-background: transparent;
+    --dark-theme-background-color: transparent;
+    --primary-background-color: transparent;
+    --yt-frosted-glass-backdrop-filter-override: none;
+    --ytmusic-scrollbar-width: 4px;
+}
+
+body { background: #0d0d18 !important; }
+div#nav-bar-background.ytmusic-app-layout {
+    background: #1c1c2e !important;
+    border-bottom: 1px solid #2e2e50 !important;
+}
+
+ytmusic-app,
+ytmusic-app-layout,
+ytmusic-browse-response,
+ytmusic-section-list-renderer,
+ytmusic-tab-renderer {
+    background: transparent !important;
+}
+
+div#nav-bar-background.ytmusic-app-layout {
+    background: #1a1a26 !important;
+    border-bottom: 1px solid #252535 !important;
+    box-shadow: 0 2px 0 #0a0a12 !important;
+}
+div#nav-bar-divider.ytmusic-app-layout {
+    background: #252535 !important;
+}
+div#mini-guide-background.ytmusic-app-layout {
+    background: #141420 !important;
+    border-right: 1px solid #202030 !important;
+}
+
+tp-yt-paper-item.ytmusic-guide-entry-renderer {
+    background: transparent !important;
+    border-radius: 8px !important;
+    transition: background 0.12s ease !important;
+}
+tp-yt-paper-item.ytmusic-guide-entry-renderer:hover {
+    background: #1e1e2c !important;
+}
+
+ytmusic-player-bar {
+    background: #161622 !important;
+    border-top: 1px solid #252535 !important;
+    box-shadow: 0 -2px 0 #0a0a12 !important;
+}
+
+div#progressContainer.tp-yt-paper-progress {
+    background: #2a2a3a !important;
+}
+div#primaryProgress.tp-yt-paper-progress {
+    background: #6060a0 !important;
+}
+div#secondaryProgress.tp-yt-paper-progress {
+    background: #3a3a5a !important;
+}
+
+ytmusic-chip-cloud-chip-renderer {
+    background: #1e1e2c !important;
+    border: 1px solid #2a2a3a !important;
+    border-radius: 6px !important;
+    transition: background 0.12s ease !important;
+}
+ytmusic-chip-cloud-chip-renderer:hover {
+    background: #252535 !important;
+    border-color: #333348 !important;
+}
+ytmusic-chip-cloud-chip-renderer[selected] {
+    background: #2a2a40 !important;
+    border-color: #4a4a70 !important;
+}
+
+div#suggestion-list.ytmusic-search-box,
+ytmusic-search-suggestions-section.ytmusic-search-box,
+ytmusic-search-suggestion.ytmusic-search-suggestions-section {
+    background: #1a1a26 !important;
+    border: 1px solid #252535 !important;
+}
+
+img.yt-img-shadow,
+ytmusic-thumbnail-renderer img { border-radius: 6px !important; }
+
+ytmusic-two-row-item-renderer:hover,
+ytmusic-responsive-list-item-renderer:hover {
+    background: #1a1a28 !important;
+    border-radius: 6px !important;
+}
+
+::-webkit-scrollbar { width: 4px !important; }
+::-webkit-scrollbar-track { background: #111118 !important; }
+::-webkit-scrollbar-thumb {
+    background: #2a2a3a !important;
+    border-radius: 0 !important;
+}
+::-webkit-scrollbar-thumb:hover { background: #3a3a5a !important; }
