@@ -13,9 +13,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Themes\*\*.css" CopyToOutputDirectory="Always" />
-    <Content Include="Themes\*.css" CopyToOutputDirectory="Always" />
-    <Content Include="Scripts\*.js" CopyToOutputDirectory="Always" />
+    <Content Include="Themes\**\*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\**\*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Themes\inject-theme.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>

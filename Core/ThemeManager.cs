@@ -45,12 +45,11 @@ public sealed class ThemeManager
         return Themes[0];
     }
 
-    public async Task ApplyAsync(ThemeEntry theme, ThemeInjector injector)
+    public Task ApplyAsync(ThemeEntry theme)
     {
         Current = theme;
-        injector.SetTheme(theme.FileName);
-        await injector.InjectDeepAsync();
         SavePreference(theme);
+        return Task.CompletedTask;
     }
 
     private static void SavePreference(ThemeEntry theme)

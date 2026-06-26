@@ -1,61 +1,33 @@
 ﻿window.__ytmControls = {
     _bar: () => document.querySelector('ytmusic-player-bar'),
+    _api: () => document.querySelector('ytmusic-player')?.playerApi,
 
     isPlaying() {
-        const api = document.querySelector('ytmusic-player')?.playerApi;
-        return api?.getPlayerState?.() === 1;
+        return this._api()?.getPlayerState?.() === 1;
     },
 
     togglePlayPause() {
-        const btn = this._bar()
-            ?.querySelector('yt-icon-button#play-pause-button button');
-        btn?.click();
+        const api = this._api();
+        if (!api) 
+            return;
+        api.getPlayerState?.() === 1 ? api.pauseVideo?.() : api.playVideo?.();
     },
 
     previous() {
-        const btn = this._bar()
-            ?.querySelector('yt-icon-button.previous-button button');
-        btn?.click();
+        this._bar()?.querySelector('yt-icon-button.previous-button button')?.click();
     },
 
     next() {
-        const btn = this._bar()
-            ?.querySelector('yt-icon-button.next-button button');
-        btn?.click();
+        this._bar()?.querySelector('yt-icon-button.next-button button')?.click();
     },
 };
 
-function setupPlayerStateListener() {
-    const api = document.querySelector('ytmusic-player')?.playerApi;
-    if (!api) return false;
+document.addEventListener('keydown', (e) => {
+    if (e.code !== 'Space') return;
+    const tag = e.target?.tagName;
+    if (tag === 'INPUT' || tag === 'TEXTAREA' || e.target?.isContentEditable) return;
+    e.preventDefault();
+    e.stopPropagation();
+    window.__ytmControls.togglePlayPause();
+}, true);
 
-    api.addEventListener('onStateChange', (state) => {
-        // 1 = playing, 2 = paused, 3 = buffering
-        const playing = state === 1;
-        window.chrome.webview.postMessage(
-            JSON.stringify({ type: 'playState', playing })
-        );
-    });
-
-    return true;
-}
-
-function waitForPlayer() {
-    if (setupPlayerStateListener()) return;
-
-    const observer = new MutationObserver(() => {
-        if (setupPlayerStateListener())
-            observer.disconnect();
-    });
-
-    observer.observe(document.body, {
-        childList: true,
-        subtree: true
-    });
-}
-
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', waitForPlayer);
-} else {
-    waitForPlayer();
-}

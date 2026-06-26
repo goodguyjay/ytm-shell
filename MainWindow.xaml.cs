@@ -1,11 +1,9 @@
-﻿using System.Text.Json;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shell;
-using Microsoft.Web.WebView2.Core;
 using Wpf.Ui.Appearance;
 using Wpf.Ui.Controls;
 using YoutubeMusicDesktop.Core;
@@ -34,7 +32,6 @@ public partial class MainWindow : FluentWindow
             try
             {
                 await _webViewManager.InitializeAsync();
-                WebView.CoreWebView2.WebMessageReceived += OnWebMessageReceived;
 
                 var chrome = WindowChrome.GetWindowChrome(this);
                 chrome?.ResizeBorderThickness = new Thickness(6);
@@ -44,6 +41,18 @@ public partial class MainWindow : FluentWindow
                 Console.WriteLine($"Failed to initialize WebView: {ex}");
             }
         };
+
+        _webViewManager.PlayStateChanged += playing =>
+            Dispatcher.Invoke(() => UpdatePlayPauseIcon(playing));
+
+        _webViewManager.TrackChanged += track =>
+            Dispatcher.Invoke(() =>
+                AppTitleBar.SetTitle(
+                    string.IsNullOrEmpty(track.Artist)
+                        ? track.Title
+                        : $"{track.Title} - {track.Artist}"
+                )
+            );
 
         SetupTaskbar();
     }
@@ -79,23 +88,6 @@ public partial class MainWindow : FluentWindow
                 },
             ],
         };
-    }
-
-    private void OnWebMessageReceived(object? sender, CoreWebView2WebMessageReceivedEventArgs e)
-    {
-        try
-        {
-            var msg = JsonDocument.Parse(e.TryGetWebMessageAsString());
-            if (msg.RootElement.GetProperty("type").GetString() != "playState")
-                return;
-
-            var playing = msg.RootElement.GetProperty("playing").GetBoolean();
-            Dispatcher.Invoke(() => UpdatePlayPauseIcon(playing));
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"WebMessage error: {ex.Message}");
-        }
     }
 
     private void UpdatePlayPauseIcon(bool playing)
