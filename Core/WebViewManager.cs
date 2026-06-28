@@ -114,7 +114,6 @@ public sealed class WebViewManager(WebView2 webView, ThemeManager themeManager)
 
         try
         {
-            // gc safety: JsonDocument implements IDisposable, but we don't need to dispose it here because we are not holding onto it.
             // let the damn gc do its work
             var doc = JsonDocument.Parse(json);
             var root = doc.RootElement;
@@ -136,10 +135,16 @@ public sealed class WebViewManager(WebView2 webView, ThemeManager themeManager)
                     if (root.TryGetProperty("title", out var titleProp))
                         TrackChanged?.Invoke(
                             new TrackInfo(
-                                titleProp.GetString() ?? string.Empty,
-                                root.TryGetProperty("artist", out var artistProp)
-                                    ? artistProp.GetString() ?? string.Empty
-                                    : string.Empty
+                                Title: titleProp.GetString() ?? string.Empty,
+                                Artist: root.TryGetProperty("artist", out var a)
+                                    ? a.GetString() ?? string.Empty
+                                    : string.Empty,
+                                ThumbnailUrl: root.TryGetProperty("thumbnailUrl", out var t)
+                                    ? t.GetString() ?? string.Empty
+                                    : string.Empty,
+                                DurationSeconds: root.TryGetProperty("durationSeconds", out var d)
+                                    ? d.GetInt32()
+                                    : 0
                             )
                         );
                     break;

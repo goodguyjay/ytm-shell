@@ -54,6 +54,12 @@ public partial class MainWindow : FluentWindow
                 )
             );
 
+        var discord = new DiscordService();
+        _webViewManager.TrackChanged += discord.OnTrackChanged;
+        _webViewManager.PlayStateChanged += discord.OnPlayStateChanged;
+
+        Closed += (_, _) => discord.Dispose();
+
         SetupTaskbar();
     }
 

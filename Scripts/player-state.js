@@ -46,10 +46,17 @@ function setupPlayerStateListener() {
     api.addEventListener('onVideoDataChange', () => {
         const data = api.getVideoData?.();
         if (!data?.title) return;
+
+        const thumbs = data.thumbnail?.thumbnails ?? [];
+        const best = thumbs.reduce((a, b) =>
+            b.width * b.height > a.width * a.height ? b : a, thumbs[0] ?? {});
+
         window.chrome.webview.postMessage({
             type: 'trackChange',
             title: data.title,
-            artist: data.author ?? ''
+            artist: data.author ?? '',
+            thumbnailUrl: best?.url ?? '',
+            durationSeconds: parseInt(data.lengthSeconds ?? '0')
         });
     });
 
