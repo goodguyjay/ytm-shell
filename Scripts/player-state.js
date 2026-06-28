@@ -47,15 +47,24 @@ function setupPlayerStateListener() {
         const data = api.getVideoData?.();
         if (!data?.title) return;
 
-        const thumbs = data.thumbnail?.thumbnails ?? [];
-        const best = thumbs.reduce((a, b) =>
-            b.width * b.height > a.width * a.height ? b : a, thumbs[0] ?? {});
+        const videoId = data.video_id ?? data.videoId;
+
+        const thumbImg = document.querySelector('img.image.style-scope.ytmusic-player-bar');
+        let thumbnailUrl = '';
+
+        if (thumbImg?.src) {
+            thumbnailUrl = thumbImg.src.replace(/=w\d+-h\d+[^"]*$/, '=w512-h512-l90-rj');
+        }
+
+        if (!thumbnailUrl && videoId) {
+            thumbnailUrl = `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`;
+        }
 
         window.chrome.webview.postMessage({
             type: 'trackChange',
             title: data.title,
             artist: data.author ?? '',
-            thumbnailUrl: best?.url ?? '',
+            thumbnailUrl: thumbnailUrl,
             durationSeconds: parseInt(data.lengthSeconds ?? '0')
         });
     });

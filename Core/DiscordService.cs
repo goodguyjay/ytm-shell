@@ -64,17 +64,21 @@ public sealed class DiscordService : IDisposable
         if (_track is null)
             return;
 
+        var imageKey =
+            !string.IsNullOrEmpty(_track.ThumbnailUrl) && _track.ThumbnailUrl.Length <= 256
+                ? _track.ThumbnailUrl
+                : "logo";
+
         _client.SetPresence(
             new RichPresence
             {
+                Type = ActivityType.Listening,
                 Details = Clamp(_track.Title),
                 State = Clamp(_track.Artist),
                 Timestamps = _playing ? Timestamps.Now : null,
                 Assets = new Assets
                 {
-                    LargeImageKey = string.IsNullOrEmpty(_track.ThumbnailUrl)
-                        ? "logo"
-                        : _track.ThumbnailUrl,
+                    LargeImageKey = imageKey,
                     LargeImageText = "Youtube Music",
                     SmallImageKey = _playing ? "playing" : "paused",
                     SmallImageText = _playing ? "Playing" : "Paused",
