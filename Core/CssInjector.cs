@@ -3,28 +3,22 @@ using Microsoft.Web.WebView2.Core;
 
 namespace YoutubeMusicDesktop.Core;
 
-public sealed class ThemeInjector(CoreWebView2 core, string cssFileName = "liquid-glass.css")
+public sealed class CssInjector(CoreWebView2 core, string initialTheme = "liquid-glass.css")
 {
-    private string _cssPath = Path.Combine(AppContext.BaseDirectory, "Themes", cssFileName);
+    private string _cssFileName = initialTheme;
 
-    public void SetTheme(string cssFileName) =>
-        _cssPath = Path.Combine(AppContext.BaseDirectory, "Themes", cssFileName);
+    private string CssPath => Path.Combine(AppContext.BaseDirectory, "Themes", _cssFileName);
 
-    public async Task RegisterAsync()
-    {
-        var script = await BuildScriptAsync();
-        await core.AddScriptToExecuteOnDocumentCreatedAsync(script);
-    }
+    public void SetTheme(string cssFileName) => _cssFileName = cssFileName;
 
-    public async Task InjectDeepAsync()
-    {
-        var script = await BuildScriptAsync();
-        await core.ExecuteScriptAsync(script);
-    }
+    public async Task RegisterAsync() =>
+        await core.AddScriptToExecuteOnDocumentCreatedAsync(await BuildScriptAsync());
+
+    public async Task InjectAsync() => await core.ExecuteScriptAsync(await BuildScriptAsync());
 
     private async Task<string> BuildScriptAsync()
     {
-        Console.WriteLine($"css path: {_cssPath}");
+        Console.WriteLine($"css path: {CssPath}");
 
         var basePath = Path.Combine(AppContext.BaseDirectory, "Themes", "base");
         var componentsPath = Path.Combine(AppContext.BaseDirectory, "Themes", "components");
@@ -41,7 +35,7 @@ public sealed class ThemeInjector(CoreWebView2 core, string cssFileName = "liqui
             Path.Combine(componentsPath, "search.css"),
             Path.Combine(componentsPath, "cards.css"),
             Path.Combine(componentsPath, "main-view.css"),
-            _cssPath,
+            CssPath,
         };
 
         var css = string.Concat(
@@ -55,7 +49,7 @@ public sealed class ThemeInjector(CoreWebView2 core, string cssFileName = "liqui
         var escaped = css.Replace("\\", "\\\\").Replace("`", "\\`").Replace("$", "\\$");
 
         var injectScript = await File.ReadAllTextAsync(
-            Path.Combine(AppContext.BaseDirectory, "Scripts", "inject-theme.js")
+            Path.Combine(AppContext.BaseDirectory, "Themes", "inject-theme.js")
         );
 
         return injectScript.Replace("{CSS}", escaped);

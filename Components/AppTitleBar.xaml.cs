@@ -15,6 +15,8 @@ public partial class AppTitleBar : UserControl
     {
         InitializeComponent();
         _soundwave = (Storyboard)Resources["SoundwaveStoryboard"]!;
+        Loaded += OnLoaded;
+        Unloaded += OnUnloaded;
     }
 
     public void SetThemes(IEnumerable<object> themes, object? current)
@@ -37,23 +39,42 @@ public partial class AppTitleBar : UserControl
     private void ThemeSelector_SelectionChanged(object sender, SelectionChangedEventArgs e) =>
         ThemeSelectionChanged?.Invoke(sender, e);
 
+    private void OnLoaded(object sender, RoutedEventArgs e)
+    {
+        var win = Window.GetWindow(this)!;
+        win.StateChanged += OnWindowStateChanged;
+        SyncMaximizeIcon(win.WindowState);
+    }
+
+    private void OnUnloaded(object sender, RoutedEventArgs e)
+    {
+        var win = Window.GetWindow(this);
+        if (win is not null)
+            win.StateChanged -= OnWindowStateChanged;
+    }
+
+    private void OnWindowStateChanged(object? sender, EventArgs e)
+    {
+        var win = Window.GetWindow(this)!;
+        SyncMaximizeIcon(win.WindowState);
+    }
+
+    private void SyncMaximizeIcon(WindowState state)
+    {
+        MaximizeIcon.Source =
+            state == WindowState.Maximized
+                ? (DrawingImage)FindResource("WinRestoreIcon")
+                : (DrawingImage)FindResource("WinMaximizeIcon");
+    }
+
     private void MinimizeButton_Click(object sender, RoutedEventArgs e) =>
         Window.GetWindow(this)!.WindowState = WindowState.Minimized;
 
     private void MaximizeButton_Click(object sender, RoutedEventArgs e)
     {
         var win = Window.GetWindow(this)!;
-
-        if (win.WindowState == WindowState.Maximized)
-        {
-            win.WindowState = WindowState.Normal;
-            MaximizeIcon.Source = (DrawingImage)FindResource("WinMaximizeIcon");
-        }
-        else
-        {
-            win.WindowState = WindowState.Maximized;
-            MaximizeIcon.Source = (DrawingImage)FindResource("WinRestoreIcon");
-        }
+        win.WindowState =
+            win.WindowState == WindowState.Maximized ? WindowState.Normal : WindowState.Maximized;
     }
 
     private void CloseButton_Click(object sender, RoutedEventArgs e) =>
