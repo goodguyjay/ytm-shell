@@ -6,6 +6,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shell;
 using Wpf.Ui.Appearance;
 using Wpf.Ui.Controls;
+using YoutubeMusicDesktop.Components;
 using YoutubeMusicDesktop.Core;
 
 namespace YoutubeMusicDesktop;
@@ -26,6 +27,20 @@ public partial class MainWindow : FluentWindow
         _webViewManager = new WebViewManager(WebView, themeManager);
 
         AppTitleBar.SetThemes(themeManager.Available, themeManager.Current);
+
+        AppTitleBar.SettingsClicked += (_, _) =>
+        {
+            var settings = new SettingsWindow(themeManager.Available, themeManager.Current)
+            {
+                Owner = this,
+            };
+            settings.ThemeSelectionChanged += async (_, e) =>
+            {
+                if (e.AddedItems[0] is ThemeEntry theme)
+                    await _webViewManager.ApplyThemeAsync(theme);
+            };
+            settings.ShowDialog();
+        };
 
         Loaded += async (_, _) =>
         {

@@ -10,8 +10,10 @@
       <ResourceDictionary.MergedDictionaries>
         <ui:ThemesDictionary Theme="Dark" />
         <ui:ControlsDictionary />
+        <!-- todo: move these icons into Resources/Icons -->
         <ResourceDictionary Source="Components/AppIcon.xaml" />
         <ResourceDictionary Source="Components/TaskbarIcons.xaml" />
+        <ResourceDictionary Source="Resources/Icons/Config.xaml"></ResourceDictionary>
       </ResourceDictionary.MergedDictionaries>
     </ResourceDictionary>
   </Application.Resources>

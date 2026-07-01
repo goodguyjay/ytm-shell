@@ -7,6 +7,7 @@ namespace YoutubeMusicDesktop.Components;
 
 public partial class AppTitleBar : UserControl
 {
+    public event EventHandler? SettingsClicked;
     public event SelectionChangedEventHandler? ThemeSelectionChanged;
 
     private readonly Storyboard? _soundwave;
@@ -19,11 +20,12 @@ public partial class AppTitleBar : UserControl
         Unloaded += OnUnloaded;
     }
 
+    // todo: hide
     public void SetThemes(IEnumerable<object> themes, object? current)
     {
-        foreach (var t in themes)
-            ThemeSelector.Items.Add(t);
-        ThemeSelector.SelectedItem = current;
+        // foreach (var t in themes)
+        //     ThemeSelector.Items.Add(t);
+        // ThemeSelector.SelectedItem = current;
     }
 
     public void SetTitle(string title) => TitleText.Text = title;
@@ -79,4 +81,7 @@ public partial class AppTitleBar : UserControl
 
     private void CloseButton_Click(object sender, RoutedEventArgs e) =>
         Window.GetWindow(this)!.Close();
+
+    private void SettingsButton_Click(object sender, RoutedEventArgs e) =>
+        SettingsClicked?.Invoke(this, EventArgs.Empty);
 }

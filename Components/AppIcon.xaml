@@ -1,52 +1,50 @@
-﻿<ResourceDictionary
-  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
->
-  <DrawingImage x:Key="AppIcon">
-    <DrawingImage.Drawing>
-      <DrawingGroup>
-        <GeometryDrawing>
-          <GeometryDrawing.Geometry>
-            <EllipseGeometry Center="128,128" RadiusX="128" RadiusY="128" />
-          </GeometryDrawing.Geometry>
-          <GeometryDrawing.Brush>
-            <RadialGradientBrush
-              Center="0.35,0.35"
-              GradientOrigin="0.35,0.35"
-              RadiusX="0.75"
-              RadiusY="0.75"
-            >
-              <GradientStop Offset="0.0" Color="#FFFF6B8A" />
-              <GradientStop Offset="0.45" Color="#FFD42B55" />
-              <GradientStop Offset="1.0" Color="#FF7B1035" />
-            </RadialGradientBrush>
-          </GeometryDrawing.Brush>
-        </GeometryDrawing>
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <DrawingImage x:Key="AppIcon">
+        <DrawingImage.Drawing>
+            <DrawingGroup>
+                <GeometryDrawing>
+                    <GeometryDrawing.Geometry>
+                        <EllipseGeometry
+                            Center="128,128"
+                            RadiusX="128"
+                            RadiusY="128" />
+                    </GeometryDrawing.Geometry>
+                    <GeometryDrawing.Brush>
+                        <RadialGradientBrush Center="0.35,0.35" GradientOrigin="0.35,0.35" RadiusX="0.75" RadiusY="0.75">
+                            <GradientStop Offset="0.0" Color="#FFFF6B8A" />
+                            <GradientStop Offset="0.45" Color="#FFD42B55" />
+                            <GradientStop Offset="1.0" Color="#FF7B1035" />
+                        </RadialGradientBrush>
+                    </GeometryDrawing.Brush>
+                </GeometryDrawing>
 
-        <GeometryDrawing>
-          <GeometryDrawing.Geometry>
-            <EllipseGeometry Center="128,128" RadiusX="122" RadiusY="122" />
-          </GeometryDrawing.Geometry>
-          <GeometryDrawing.Pen>
-            <Pen Thickness="1.5">
-              <Pen.Brush>
-                <SolidColorBrush Color="#33FFFFFF" />
-              </Pen.Brush>
-            </Pen>
-          </GeometryDrawing.Pen>
-        </GeometryDrawing>
+                <GeometryDrawing>
+                    <GeometryDrawing.Geometry>
+                        <EllipseGeometry
+                            Center="128,128"
+                            RadiusX="122"
+                            RadiusY="122" />
+                    </GeometryDrawing.Geometry>
+                    <GeometryDrawing.Pen>
+                        <Pen Thickness="1.5">
+                            <Pen.Brush>
+                                <SolidColorBrush Color="#33FFFFFF" />
+                            </Pen.Brush>
+                        </Pen>
+                    </GeometryDrawing.Pen>
+                </GeometryDrawing>
 
-        <GeometryDrawing Brush="#FFFFFFFF">
-          <GeometryDrawing.Geometry>
-            <PathGeometry>
-              <PathFigure IsClosed="true" StartPoint="88,70">
-                <LineSegment Point="88,186" />
-                <LineSegment Point="184,128" />
-              </PathFigure>
-            </PathGeometry>
-          </GeometryDrawing.Geometry>
-        </GeometryDrawing>
-      </DrawingGroup>
-    </DrawingImage.Drawing>
-  </DrawingImage>
+                <GeometryDrawing Brush="#FFFFFFFF">
+                    <GeometryDrawing.Geometry>
+                        <PathGeometry>
+                            <PathFigure IsClosed="true" StartPoint="88,70">
+                                <LineSegment Point="88,186" />
+                                <LineSegment Point="184,128" />
+                            </PathFigure>
+                        </PathGeometry>
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+            </DrawingGroup>
+        </DrawingImage.Drawing>
+    </DrawingImage>
 </ResourceDictionary>
