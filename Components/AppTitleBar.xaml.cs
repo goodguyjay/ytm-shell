@@ -7,10 +7,15 @@ namespace YoutubeMusicDesktop.Components;
 
 public partial class AppTitleBar : UserControl
 {
+    private readonly Storyboard? _soundwave;
+
     public event EventHandler? SettingsClicked;
+
     public event SelectionChangedEventHandler? ThemeSelectionChanged;
 
-    private readonly Storyboard? _soundwave;
+    public event EventHandler? BackRequested;
+
+    public event EventHandler? ForwardRequested;
 
     public AppTitleBar()
     {
@@ -18,14 +23,6 @@ public partial class AppTitleBar : UserControl
         _soundwave = (Storyboard)Resources["SoundwaveStoryboard"]!;
         Loaded += OnLoaded;
         Unloaded += OnUnloaded;
-    }
-
-    // todo: hide
-    public void SetThemes(IEnumerable<object> themes, object? current)
-    {
-        // foreach (var t in themes)
-        //     ThemeSelector.Items.Add(t);
-        // ThemeSelector.SelectedItem = current;
     }
 
     public void SetTitle(string title) => TitleText.Text = title;
@@ -36,6 +33,12 @@ public partial class AppTitleBar : UserControl
             _soundwave?.Begin(this, isControllable: true);
         else
             _soundwave?.Stop();
+    }
+
+    public void SetNavState(bool canGoBack, bool canGoForward)
+    {
+        BackButton.IsEnabled = canGoBack;
+        ForwardButton.IsEnabled = canGoForward;
     }
 
     private void ThemeSelector_SelectionChanged(object sender, SelectionChangedEventArgs e) =>
@@ -84,4 +87,10 @@ public partial class AppTitleBar : UserControl
 
     private void SettingsButton_Click(object sender, RoutedEventArgs e) =>
         SettingsClicked?.Invoke(this, EventArgs.Empty);
+
+    private void BackButton_Click(object sender, RoutedEventArgs e) =>
+        BackRequested?.Invoke(this, EventArgs.Empty);
+
+    private void ForwardButton_Click(object sender, RoutedEventArgs e) =>
+        ForwardRequested?.Invoke(this, EventArgs.Empty);
 }

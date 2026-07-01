@@ -1,0 +1,22 @@
+﻿<ResourceDictionary
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+>
+  <DrawingImage x:Key="NavBackIcon">
+    <DrawingImage.Drawing>
+      <GeometryDrawing
+        Brush="White"
+        Geometry="M 15.5 4.5 L 8 12 L 15.5 19.5 L 17 18 L 11 12 L 17 6 Z"
+      />
+    </DrawingImage.Drawing>
+  </DrawingImage>
+
+  <DrawingImage x:Key="NavForwardIcon">
+    <DrawingImage.Drawing>
+      <GeometryDrawing
+        Brush="White"
+        Geometry="M 8.5 4.5 L 16 12 L 8.5 19.5 L 7 18 L 13 12 L 7 6 Z"
+      />
+    </DrawingImage.Drawing>
+  </DrawingImage>
+</ResourceDictionary>
