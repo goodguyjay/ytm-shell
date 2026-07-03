@@ -218,6 +218,8 @@
         Foreground="White"
         Opacity="0.9"
         Text="Youtube Music"
+        TextOptions.TextFormattingMode="Display"
+        TextOptions.TextRenderingMode="Grayscale"
       />
     </StackPanel>
 
