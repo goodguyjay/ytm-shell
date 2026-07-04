@@ -26,6 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <!-- i don't remember why i've added that here but i'll keep it just in case -->
     <Folder Include="Docs\" />
   </ItemGroup>
 </Project>

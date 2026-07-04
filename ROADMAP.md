@@ -12,7 +12,7 @@ Status of planned work across releases. Updated as things ship or get reprioriti
 - [x] Title bar shows current track/artist instead of static "YouTube Music"
 - [x] Back button added to the top bar
 - [x] Fixed serrated/aliased text rendering (`TextRenderingMode="Grayscale"` + `TextFormattingMode="Display"`)
-- [x] Settings page: implement custom top bar (currently missing)
+- [x] Settings page: implement custom top bar
 
 ---
 
@@ -38,7 +38,7 @@ Flagship differentiators. No YTM client on the market does deep Windows integrat
 
 ## Windows integration differentiators (beta)
 
-The deep-integration angle no competitor (ytmdesktop) or Spotify can match.
+The deep-integration angle no competitor or Spotify can match.
 
 - [ ] Taskbar progress bar (`ITaskbarList3`)
 - [ ] Jump lists (`ICustomDestinationList`)
@@ -85,7 +85,7 @@ Conscious calls, not forgotten bugs.
 ## Uncertain / needs design before committing
 
 - [ ] Persist last visited page across sessions. Not as trivial as it sounds: need to decide where to store the state and confirm it doesn't add startup latency
-- [ ] Roboto font for visual consistency between WPF chrome and WebView2 content. In analysis; Segoe UI already looks fine, not clear the swap is worth it
+- [ ] ~~Roboto font for visual consistency between WPF chrome and WebView2 content. In analysis;~~ Segoe UI already looks fine
 
 ---
 

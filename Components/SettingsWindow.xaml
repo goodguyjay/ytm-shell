@@ -8,13 +8,10 @@
     Width="600"
     WindowStartupLocation="CenterOwner"
     WindowStyle="None"
-    d:DataContext="{d:DesignInstance Type=local:SettingsWindow,
-                                     IsDesignTimeCreatable=False}"
     mc:Ignorable="d"
     x:Class="YoutubeMusicDesktop.Components.SettingsWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="clr-namespace:YoutubeMusicDesktop.Components"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
@@ -85,8 +82,6 @@
                 Margin="16,0,0,0"
                 Opacity="0.9"
                 Text="Settings"
-                TextOptions.TextFormattingMode="Display"
-                TextOptions.TextRenderingMode="Grayscale"
                 VerticalAlignment="Center" />
 
             <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">

@@ -30,9 +30,9 @@ public partial class AppTitleBar : UserControl
     public void SetPlayState(bool playing)
     {
         if (playing)
-            _soundwave?.Begin(this, isControllable: true);
+            _soundwave?.Resume(this);
         else
-            _soundwave?.Stop();
+            _soundwave?.Pause(this);
     }
 
     public void SetNavState(bool canGoBack, bool canGoForward)
@@ -46,6 +46,9 @@ public partial class AppTitleBar : UserControl
 
     private void OnLoaded(object sender, RoutedEventArgs e)
     {
+        _soundwave?.Begin(this, isControllable: true);
+        _soundwave?.Pause(this);
+        
         var win = Window.GetWindow(this)!;
         win.StateChanged += OnWindowStateChanged;
         SyncMaximizeIcon(win.WindowState);

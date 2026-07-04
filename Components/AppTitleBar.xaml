@@ -1,282 +1,287 @@
 ﻿<UserControl
-  x:Class="YoutubeMusicDesktop.Components.AppTitleBar"
-  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-  Height="36"
-  d:DesignHeight="100"
-  d:DesignWidth="700"
-  Background="Black"
-  mc:Ignorable="d"
->
-  <UserControl.Resources>
-    <Style x:Key="TitleBarButtonStyle" TargetType="Button">
-      <Setter Property="Background" Value="Transparent" />
-      <Setter Property="BorderThickness" Value="0" />
-      <Setter Property="Cursor" Value="Arrow" />
-      <Setter Property="Template">
-        <Setter.Value>
-          <ControlTemplate TargetType="Button">
-            <Border x:Name="Bg" Background="{TemplateBinding Background}">
-              <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
-            </Border>
-            <ControlTemplate.Triggers>
-              <Trigger Property="IsMouseOver" Value="True">
-                <Setter TargetName="Bg" Property="Background" Value="#1AFFFFFF" />
-              </Trigger>
+    Background="Black"
+    DataContext="{Binding RelativeSource={RelativeSource Self}}"
+    Height="36"
+    d:DesignHeight="100"
+    d:DesignWidth="700"
+    mc:Ignorable="d"
+    x:Class="YoutubeMusicDesktop.Components.AppTitleBar"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <UserControl.Resources>
+        <Style TargetType="Button" x:Key="TitleBarButtonStyle">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Cursor" Value="Arrow" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" x:Name="Bg">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" TargetName="Bg" Value="#1AFFFFFF" />
+                            </Trigger>
 
-              <Trigger Property="IsPressed" Value="True">
-                <Setter TargetName="Bg" Property="Background" Value="#33FFFFFF" />
-              </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" TargetName="Bg" Value="#33FFFFFF" />
+                            </Trigger>
 
-              <Trigger Property="IsEnabled" Value="False">
-                <Setter TargetName="Bg" Property="Opacity" Value="0.3" />
-              </Trigger>
-            </ControlTemplate.Triggers>
-          </ControlTemplate>
-        </Setter.Value>
-      </Setter>
-    </Style>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Opacity" TargetName="Bg" Value="0.3" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
 
-    <Style
-      x:Key="TitleBarCloseButtonStyle"
-      BasedOn="{StaticResource TitleBarButtonStyle}"
-      TargetType="Button"
-    >
-      <Style.Triggers>
-        <Trigger Property="IsMouseOver" Value="True">
-          <Setter Property="Background" Value="#E81123" />
-        </Trigger>
-        <Trigger Property="IsPressed" Value="True">
-          <Setter Property="Background" Value="#C50F1F" />
-        </Trigger>
-      </Style.Triggers>
-    </Style>
+        <Style
+            BasedOn="{StaticResource TitleBarButtonStyle}"
+            TargetType="Button"
+            x:Key="TitleBarCloseButtonStyle">
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#E81123" />
+                </Trigger>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="Background" Value="#C50F1F" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
 
-    <Storyboard x:Key="SoundwaveStoryboard" RepeatBehavior="Forever">
-      <DoubleAnimation
-        AutoReverse="True"
-        EasingFunction="{x:Null}"
-        Storyboard.TargetName="Bar1Scale"
-        Storyboard.TargetProperty="ScaleY"
-        From="0.15"
-        To="1.0"
-        Duration="0:0:0.45"
-      />
-      <DoubleAnimation
-        AutoReverse="True"
-        BeginTime="0:0:0.1"
-        Storyboard.TargetName="Bar2Scale"
-        Storyboard.TargetProperty="ScaleY"
-        From="0.15"
-        To="1.0"
-        Duration="0:0:0.35"
-      />
-      <DoubleAnimation
-        AutoReverse="True"
-        BeginTime="0:0:0.1"
-        Storyboard.TargetName="Bar3Scale"
-        Storyboard.TargetProperty="ScaleY"
-        From="0.15"
-        To="1.0"
-        Duration="0:0:0.35"
-      />
-      <DoubleAnimation
-        AutoReverse="True"
-        BeginTime="0:0:0.15"
-        Storyboard.TargetName="Bar4Scale"
-        Storyboard.TargetProperty="ScaleY"
-        From="0.15"
-        To="1.0"
-        Duration="0:0:0.40"
-      />
-    </Storyboard>
-  </UserControl.Resources>
+        <Storyboard x:Key="SoundwaveStoryboard">
+            <DoubleAnimation
+                AutoReverse="True"
+                Duration="0:0:0.45"
+                EasingFunction="{x:Null}"
+                From="0.15"
+                RepeatBehavior="Forever"
+                Storyboard.TargetName="Bar1Scale"
+                Storyboard.TargetProperty="ScaleY"
+                To="1.0" />
+            <DoubleAnimation
+                AutoReverse="True"
+                BeginTime="0:0:0.10"
+                Duration="0:0:0.38"
+                From="0.15"
+                RepeatBehavior="Forever"
+                Storyboard.TargetName="Bar2Scale"
+                Storyboard.TargetProperty="ScaleY"
+                To="1.0" />
+            <DoubleAnimation
+                AutoReverse="True"
+                BeginTime="0:0:0.22"
+                Duration="0:0:0.42"
+                From="0.15"
+                RepeatBehavior="Forever"
+                Storyboard.TargetName="Bar3Scale"
+                Storyboard.TargetProperty="ScaleY"
+                To="1.0" />
+            <DoubleAnimation
+                AutoReverse="True"
+                BeginTime="0:0:0.15"
+                Duration="0:0:0.33"
+                From="0.15"
+                RepeatBehavior="Forever"
+                Storyboard.TargetName="Bar4Scale"
+                Storyboard.TargetProperty="ScaleY"
+                To="1.0" />
+        </Storyboard>
+    </UserControl.Resources>
 
-  <Grid>
-    <Grid.ColumnDefinitions>
-      <ColumnDefinition Width="Auto" />
-      <ColumnDefinition Width="*" />
-      <ColumnDefinition Width="*" />
-    </Grid.ColumnDefinitions>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
 
-    <StackPanel
-      Grid.Column="0"
-      Margin="8,0,0,0"
-      HorizontalAlignment="Left"
-      VerticalAlignment="Center"
-      Orientation="Horizontal"
-    >
-      <Button
-        x:Name="BackButton"
-        Width="32"
-        Height="36"
-        Click="BackButton_Click"
-        IsEnabled="False"
-        Style="{StaticResource TitleBarButtonStyle}"
-        WindowChrome.IsHitTestVisibleInChrome="True"
-      >
-        <Image Width="10" Height="10" Opacity="0.85" Source="{DynamicResource NavBackIcon}" />
-      </Button>
+        <StackPanel
+            Grid.Column="0"
+            HorizontalAlignment="Left"
+            Margin="8,0,0,0"
+            Orientation="Horizontal"
+            VerticalAlignment="Center">
+            <Button
+                Click="BackButton_Click"
+                Height="36"
+                IsEnabled="False"
+                Style="{StaticResource TitleBarButtonStyle}"
+                Width="32"
+                WindowChrome.IsHitTestVisibleInChrome="True"
+                x:Name="BackButton">
+                <Image
+                    Height="10"
+                    Opacity="0.85"
+                    Source="{DynamicResource NavBackIcon}"
+                    Width="10" />
+            </Button>
 
-      <Button
-        x:Name="ForwardButton"
-        Width="32"
-        Height="36"
-        Click="ForwardButton_Click"
-        IsEnabled="False"
-        Style="{StaticResource TitleBarButtonStyle}"
-        WindowChrome.IsHitTestVisibleInChrome="True"
-      >
-        <Image Width="10" Height="10" Opacity="0.85" Source="{DynamicResource NavForwardIcon}" />
-      </Button>
-    </StackPanel>
+            <Button
+                Click="ForwardButton_Click"
+                Height="36"
+                IsEnabled="False"
+                Style="{StaticResource TitleBarButtonStyle}"
+                Width="32"
+                WindowChrome.IsHitTestVisibleInChrome="True"
+                x:Name="ForwardButton">
+                <Image
+                    Height="10"
+                    Opacity="0.85"
+                    Source="{DynamicResource NavForwardIcon}"
+                    Width="10" />
+            </Button>
+        </StackPanel>
 
-    <StackPanel
-      Grid.Column="1"
-      Margin="16,0,0,0"
-      HorizontalAlignment="Left"
-      VerticalAlignment="Center"
-      Orientation="Horizontal"
-    >
-      <Canvas Width="22" Height="16" Margin="0,0,8,0">
-        <Rectangle
-          x:Name="Bar1"
-          Canvas.Left="0"
-          Canvas.Bottom="0"
-          Width="3"
-          Height="12"
-          Fill="White"
-          Opacity="0.85"
-          RadiusX="1.5"
-          RadiusY="1.5"
-          RenderTransformOrigin="0.5,1"
-        >
-          <Rectangle.RenderTransform>
-            <ScaleTransform x:Name="Bar1Scale" ScaleY="0.3" />
-          </Rectangle.RenderTransform>
-        </Rectangle>
+        <StackPanel
+            Grid.Column="1"
+            HorizontalAlignment="Left"
+            Margin="16,0,0,0"
+            Orientation="Horizontal"
+            VerticalAlignment="Center">
+            <Canvas
+                Height="16"
+                Margin="0,0,8,0"
+                Width="22">
+                <Rectangle
+                    Canvas.Bottom="0"
+                    Canvas.Left="0"
+                    Fill="White"
+                    Height="12"
+                    Opacity="0.85"
+                    RadiusX="1.5"
+                    RadiusY="1.5"
+                    RenderTransformOrigin="0.5,1"
+                    Width="3"
+                    x:Name="Bar1">
+                    <Rectangle.RenderTransform>
+                        <ScaleTransform ScaleY="0.3" x:Name="Bar1Scale" />
+                    </Rectangle.RenderTransform>
+                </Rectangle>
 
-        <Rectangle
-          x:Name="Bar2"
-          Canvas.Left="6"
-          Canvas.Bottom="0"
-          Width="3"
-          Height="12"
-          Fill="White"
-          Opacity="0.85"
-          RadiusX="1.5"
-          RadiusY="1.5"
-          RenderTransformOrigin="0.5,1"
-        >
-          <Rectangle.RenderTransform>
-            <ScaleTransform x:Name="Bar2Scale" ScaleY="0.6" />
-          </Rectangle.RenderTransform>
-        </Rectangle>
+                <Rectangle
+                    Canvas.Bottom="0"
+                    Canvas.Left="6"
+                    Fill="White"
+                    Height="12"
+                    Opacity="0.85"
+                    RadiusX="1.5"
+                    RadiusY="1.5"
+                    RenderTransformOrigin="0.5,1"
+                    Width="3"
+                    x:Name="Bar2">
+                    <Rectangle.RenderTransform>
+                        <ScaleTransform ScaleY="0.6" x:Name="Bar2Scale" />
+                    </Rectangle.RenderTransform>
+                </Rectangle>
 
-        <Rectangle
-          x:Name="Bar3"
-          Canvas.Left="12"
-          Canvas.Bottom="0"
-          Width="3"
-          Height="12"
-          Fill="White"
-          Opacity="0.85"
-          RadiusX="1.5"
-          RadiusY="1.5"
-          RenderTransformOrigin="0.5,1"
-        >
-          <Rectangle.RenderTransform>
-            <ScaleTransform x:Name="Bar3Scale" ScaleY="0.45" />
-          </Rectangle.RenderTransform>
-        </Rectangle>
+                <Rectangle
+                    Canvas.Bottom="0"
+                    Canvas.Left="12"
+                    Fill="White"
+                    Height="12"
+                    Opacity="0.85"
+                    RadiusX="1.5"
+                    RadiusY="1.5"
+                    RenderTransformOrigin="0.5,1"
+                    Width="3"
+                    x:Name="Bar3">
+                    <Rectangle.RenderTransform>
+                        <ScaleTransform ScaleY="0.45" x:Name="Bar3Scale" />
+                    </Rectangle.RenderTransform>
+                </Rectangle>
 
-        <Rectangle
-          x:Name="Bar4"
-          Canvas.Left="18"
-          Canvas.Bottom="0"
-          Width="3"
-          Height="12"
-          Fill="White"
-          Opacity="0.85"
-          RadiusX="1.5"
-          RadiusY="1.5"
-          RenderTransformOrigin="0.5,1"
-        >
-          <Rectangle.RenderTransform>
-            <ScaleTransform x:Name="Bar4Scale" ScaleY="0.2" />
-          </Rectangle.RenderTransform>
-        </Rectangle>
-      </Canvas>
+                <Rectangle
+                    Canvas.Bottom="0"
+                    Canvas.Left="18"
+                    Fill="White"
+                    Height="12"
+                    Opacity="0.85"
+                    RadiusX="1.5"
+                    RadiusY="1.5"
+                    RenderTransformOrigin="0.5,1"
+                    Width="3"
+                    x:Name="Bar4">
+                    <Rectangle.RenderTransform>
+                        <ScaleTransform ScaleY="0.2" x:Name="Bar4Scale" />
+                    </Rectangle.RenderTransform>
+                </Rectangle>
+            </Canvas>
 
-      <!--  The title text is set dynamically  -->
-      <TextBlock
-        x:Name="TitleText"
-        VerticalAlignment="Center"
-        FontSize="13"
-        Foreground="White"
-        Opacity="0.9"
-        Text="Youtube Music"
-        TextOptions.TextFormattingMode="Display"
-        TextOptions.TextRenderingMode="Grayscale"
-      />
-    </StackPanel>
+            <!--  The title text is set dynamically  -->
+            <TextBlock
+                FontSize="13"
+                Foreground="White"
+                Opacity="0.9"
+                Text="Youtube Music"
+                TextOptions.TextFormattingMode="Ideal"
+                TextOptions.TextRenderingMode="Grayscale"
+                VerticalAlignment="Center"
+                x:Name="TitleText" />
+        </StackPanel>
 
-    <StackPanel
-      Grid.Column="2"
-      HorizontalAlignment="Right"
-      VerticalAlignment="Stretch"
-      Orientation="Horizontal"
-    >
-      <Button
-        x:Name="SettingsButton"
-        Width="46"
-        Height="36"
-        Click="SettingsButton_Click"
-        Style="{StaticResource TitleBarButtonStyle}"
-        WindowChrome.IsHitTestVisibleInChrome="True"
-      >
-        <Image Width="14" Height="14" Opacity="0.85" Source="{DynamicResource SettingsIcon}" />
-      </Button>
+        <StackPanel
+            Grid.Column="2"
+            HorizontalAlignment="Right"
+            Orientation="Horizontal"
+            VerticalAlignment="Stretch">
+            <Button
+                Click="SettingsButton_Click"
+                Height="36"
+                Style="{StaticResource TitleBarButtonStyle}"
+                Width="46"
+                WindowChrome.IsHitTestVisibleInChrome="True"
+                x:Name="SettingsButton">
+                <Image
+                    Height="14"
+                    Opacity="0.85"
+                    Source="{DynamicResource SettingsIcon}"
+                    Width="14" />
+            </Button>
 
-      <Button
-        x:Name="MinimizeButton"
-        Width="46"
-        Height="36"
-        Click="MinimizeButton_Click"
-        Style="{StaticResource TitleBarButtonStyle}"
-        WindowChrome.IsHitTestVisibleInChrome="True"
-      >
-        <Image Width="10" Height="10" Source="{DynamicResource WinMinimizeIcon}" />
-      </Button>
+            <Button
+                Click="MinimizeButton_Click"
+                Height="36"
+                Style="{StaticResource TitleBarButtonStyle}"
+                Width="46"
+                WindowChrome.IsHitTestVisibleInChrome="True"
+                x:Name="MinimizeButton">
+                <Image
+                    Height="10"
+                    Source="{DynamicResource WinMinimizeIcon}"
+                    Width="10" />
+            </Button>
 
-      <Button
-        x:Name="MaximizeButton"
-        Width="46"
-        Height="36"
-        Click="MaximizeButton_Click"
-        Style="{StaticResource TitleBarButtonStyle}"
-        WindowChrome.IsHitTestVisibleInChrome="True"
-      >
-        <Image
-          x:Name="MaximizeIcon"
-          Width="10"
-          Height="10"
-          Source="{DynamicResource WinMaximizeIcon}"
-        />
-      </Button>
+            <Button
+                Click="MaximizeButton_Click"
+                Height="36"
+                Style="{StaticResource TitleBarButtonStyle}"
+                Width="46"
+                WindowChrome.IsHitTestVisibleInChrome="True"
+                x:Name="MaximizeButton">
+                <Image
+                    Height="10"
+                    Source="{DynamicResource WinMaximizeIcon}"
+                    Width="10"
+                    x:Name="MaximizeIcon" />
+            </Button>
 
-      <Button
-        x:Name="CloseButton"
-        Width="46"
-        Height="36"
-        Click="CloseButton_Click"
-        Style="{StaticResource TitleBarButtonStyle}"
-        WindowChrome.IsHitTestVisibleInChrome="True"
-      >
-        <Image Width="10" Height="10" Source="{DynamicResource WinCloseIcon}" />
-      </Button>
-    </StackPanel>
-  </Grid>
+            <Button
+                Click="CloseButton_Click"
+                Height="36"
+                Style="{StaticResource TitleBarButtonStyle}"
+                Width="46"
+                WindowChrome.IsHitTestVisibleInChrome="True"
+                x:Name="CloseButton">
+                <Image
+                    Height="10"
+                    Source="{DynamicResource WinCloseIcon}"
+                    Width="10" />
+            </Button>
+        </StackPanel>
+    </Grid>
 </UserControl>
