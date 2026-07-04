@@ -12,6 +12,7 @@ Status of planned work across releases. Updated as things ship or get reprioriti
 - [x] Title bar shows current track/artist instead of static "YouTube Music"
 - [x] Back button added to the top bar
 - [x] Fixed serrated/aliased text rendering (`TextRenderingMode="Grayscale"` + `TextFormattingMode="Display"`)
+- [x] Settings page: implement custom top bar (currently missing)
 
 ---
 
@@ -19,7 +20,6 @@ Status of planned work across releases. Updated as things ship or get reprioriti
 
 The only things blocking GitHub release. Everything else is post-alpha.
 
-- [ ] Settings page: implement custom top bar (currently missing)
 - [ ] Equalizer animation synced with actual playback state (currently loops regardless of play/pause)
 - [ ] SMTC integration (Windows lock screen / media overlay controls)
 - [ ] Taskbar preview overhaul: show album art instead of app window preview, and show "artist - song" in the preview title instead of "YouTube Music" when a track is playing (title logic already implemented elsewhere, needs wiring into the taskbar preview)

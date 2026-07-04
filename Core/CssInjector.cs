@@ -11,10 +11,24 @@ public sealed class CssInjector(CoreWebView2 core, string initialTheme = "liquid
 
     public void SetTheme(string cssFileName) => _cssFileName = cssFileName;
 
-    public async Task RegisterAsync() =>
-        await core.AddScriptToExecuteOnDocumentCreatedAsync(await BuildScriptAsync());
+    public async Task RegisterAsync()
+    {
+        if (string.IsNullOrEmpty(_cssFileName))
+            return;
 
-    public async Task InjectAsync() => await core.ExecuteScriptAsync(await BuildScriptAsync());
+        await core.AddScriptToExecuteOnDocumentCreatedAsync(await BuildScriptAsync());
+    }
+
+    public async Task InjectAsync() 
+    {
+        if (string.IsNullOrEmpty(_cssFileName))
+            return;
+        
+        await core.ExecuteScriptAsync(await BuildScriptAsync());
+    }
+    
+    public Task ClearAsync() =>
+        core.ExecuteScriptAsync("document.querySelector('style[data-ytmshell]')?.remove();");
 
     private async Task<string> BuildScriptAsync()
     {

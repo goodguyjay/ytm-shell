@@ -15,6 +15,7 @@ public sealed class WebViewManager(WebView2 webView, ThemeManager themeManager)
     private int _navigationCount;
 #endif
     public bool CanGoBack => webView.CoreWebView2.CanGoBack;
+    
     public bool CanGoForward => webView.CoreWebView2.CanGoForward;
 
     public event Action<bool>? PlayStateChanged;
@@ -65,6 +66,7 @@ public sealed class WebViewManager(WebView2 webView, ThemeManager themeManager)
     {
         if (_cssInjector is null)
             return;
+        await _cssInjector.ClearAsync();
         await themeManager.ApplyAsync(theme);
         _cssInjector.SetTheme(theme.FileName);
         await _cssInjector.InjectAsync();

@@ -6,6 +6,8 @@ public record ThemeEntry(string DisplayName, string FileName);
 
 public sealed class ThemeManager
 {
+    public static readonly ThemeEntry None = new("None", "");
+    
     private static readonly ThemeEntry[] Themes =
     [
         new("Liquid Glass", "liquid-glass.css"),
@@ -21,9 +23,11 @@ public sealed class ThemeManager
         "theme.txt"
     );
 
-    public IReadOnlyList<ThemeEntry> Available => Themes;
+    public IReadOnlyList<ThemeEntry> Available { get; } = [None, .. Themes];
 
-    public ThemeEntry Current { get; private set; } = Themes[0];
+    public ThemeEntry Current { get; private set; }
+
+    public ThemeManager() => Current = LoadSaved();
 
     private static ThemeEntry LoadSaved()
     {
@@ -42,7 +46,7 @@ public sealed class ThemeManager
             // ignored
         }
 
-        return Themes[0];
+        return None;
     }
 
     public Task ApplyAsync(ThemeEntry theme)

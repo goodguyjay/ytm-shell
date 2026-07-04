@@ -30,4 +30,6 @@ public partial class SettingsWindow : Window
 
     private void ThemeSelector_SelectionChanged(object sender, SelectionChangedEventArgs e) =>
         ThemeSelectionChanged?.Invoke(sender, e);
+
+    private void CloseButton_Click(object sender, RoutedEventArgs e) => Close();
 }
