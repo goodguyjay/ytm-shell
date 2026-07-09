@@ -1,34 +1,37 @@
 ﻿<ui:FluentWindow
-    x:Class="YoutubeMusicDesktop.MainWindow"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:components="clr-namespace:YoutubeMusicDesktop.Components"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
-    xmlns:wv2="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf"
-    Title="Youtube Music"
-    Width="1100"
-    Height="720"
-    MinWidth="820"
-    MinHeight="520"
-    WindowStartupLocation="CenterScreen"
-    mc:Ignorable="d">
-    <Grid MouseLeftButtonDown="OnTitleBarMouseDown">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
+  x:Class="YoutubeMusicDesktop.MainWindow"
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:components="clr-namespace:YoutubeMusicDesktop.Components"
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+  xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+  xmlns:wv2="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf"
+  Title="Youtube Music"
+  Width="1100"
+  Height="720"
+  MinWidth="820"
+  MinHeight="520"
+  WindowStartupLocation="CenterScreen"
+  mc:Ignorable="d"
+>
+  <Grid MouseLeftButtonDown="OnTitleBarMouseDown">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="*" />
+    </Grid.RowDefinitions>
 
-        <components:AppTitleBar
-            x:Name="AppTitleBar"
-            Grid.Row="0"
-            ThemeSelectionChanged="AppTitleBar_ThemeSelectionChanged" />
+    <components:AppTitleBar
+      x:Name="AppTitleBar"
+      Grid.Row="0"
+      ThemeSelectionChanged="AppTitleBar_ThemeSelectionChanged"
+    />
 
-        <wv2:WebView2
-            x:Name="WebView"
-            Grid.Row="1"
-            Margin="4,0,4,4"
-            DefaultBackgroundColor="Transparent" />
-    </Grid>
+    <wv2:WebView2
+      x:Name="WebView"
+      Grid.Row="1"
+      Margin="4,0,4,4"
+      DefaultBackgroundColor="Transparent"
+    />
+  </Grid>
 </ui:FluentWindow>

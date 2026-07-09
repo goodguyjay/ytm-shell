@@ -15,7 +15,7 @@ public sealed class WebViewManager(WebView2 webView, ThemeManager themeManager)
     private int _navigationCount;
 #endif
     public bool CanGoBack => webView.CoreWebView2.CanGoBack;
-    
+
     public bool CanGoForward => webView.CoreWebView2.CanGoForward;
 
     public event Action<bool>? PlayStateChanged;
@@ -32,9 +32,15 @@ public sealed class WebViewManager(WebView2 webView, ThemeManager themeManager)
             "WebView2"
         );
 
+        var options = new CoreWebView2EnvironmentOptions()
+        {
+            ScrollBarStyle = CoreWebView2ScrollbarStyle.FluentOverlay,
+        };
+
         var env = await CoreWebView2Environment.CreateAsync(
             browserExecutableFolder: null,
-            userDataFolder: userDataFolder
+            userDataFolder: userDataFolder,
+            options: options
         );
 
         await webView.EnsureCoreWebView2Async(env);
