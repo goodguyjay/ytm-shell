@@ -25,7 +25,11 @@ public partial class AppTitleBar : UserControl
         Unloaded += OnUnloaded;
     }
 
-    public void SetTitle(string title) => TitleText.Text = title;
+    public void SetTitle(string title)
+    {
+        TitleText.Text = title;
+        Window.GetWindow(this)!.Title = title;
+    }
 
     public void SetPlayState(bool playing)
     {

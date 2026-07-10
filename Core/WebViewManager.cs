@@ -136,6 +136,7 @@ public sealed class WebViewManager(WebView2 webView, ThemeManager themeManager)
 
         try
         {
+            // update: yeah, i dunno about this. might be leaking memory.
             // let the damn gc do its work
             var doc = JsonDocument.Parse(json);
             var root = doc.RootElement;
