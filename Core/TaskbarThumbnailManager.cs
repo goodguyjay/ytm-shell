@@ -1,8 +1,11 @@
 ﻿using System.Drawing;
 using System.Drawing.Imaging;
+using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Interop;
+
+// ReSharper disable InconsistentNaming
 
 namespace YoutubeMusicDesktop.Core;
 
@@ -14,13 +17,23 @@ public sealed partial class TaskbarThumbnailManager : IDisposable
     private const int DWMWA_HAS_ICONIC_BITMAP = 10;
 
     [LibraryImport("dwmapi.dll")]
-    private static partial int DwmSetWindowAttribute(IntPtr hwnd, int attr, ref int value, int size);
-    
+    private static partial int DwmSetWindowAttribute(
+        IntPtr hwnd,
+        int attr,
+        ref int value,
+        int size
+    );
+
     [LibraryImport("dwmapi.dll")]
     private static partial int DwmSetIconicThumbnail(IntPtr hwnd, IntPtr hbitmap, int flags);
 
     [LibraryImport("dwmapi.dll")]
-    private static partial int DwmSetIconicLivePreviewBitmap(IntPtr hwnd, IntPtr hbitmap, IntPtr ptClient, int flags);
+    private static partial int DwmSetIconicLivePreviewBitmap(
+        IntPtr hwnd,
+        IntPtr hbitmap,
+        IntPtr ptClient,
+        int flags
+    );
 
     [LibraryImport("dwmapi.dll")]
     private static partial int DwmInvalidateIconicBitmaps(IntPtr hwnd);
@@ -32,17 +45,46 @@ public sealed partial class TaskbarThumbnailManager : IDisposable
     [LibraryImport("user32.dll")]
     [return: MarshalAs(UnmanagedType.Bool)]
     private static partial bool GetClientRect(IntPtr hwnd, out RECT rect);
-    
+
     private struct RECT
     {
-        public int Left, Top, Right, Bottom;
+        public int Left,
+            Top,
+            Right,
+            Bottom;
     }
+
+    [StructLayout(LayoutKind.Sequential)]
+    private partial struct BITMAPINFOHEADER
+    {
+        public uint biSize;
+        public int biWidth;
+        public int biHeight;
+        public ushort biPlanes;
+        public ushort biBitCount;
+        public uint biCompression;
+        public uint biSizeImage;
+        public int biXPelsPerMeter;
+        public int biYPelsPerMeter;
+        public uint biClrUsed;
+        public uint biClrImportant;
+    }
+
+    [LibraryImport("gdi32.dll", SetLastError = true)]
+    private static partial IntPtr CreateDIBSection(
+        IntPtr hdc,
+        ref BITMAPINFOHEADER bmi,
+        uint usage,
+        out IntPtr ppvBits,
+        IntPtr hSection,
+        uint offset
+    );
 
     private readonly IntPtr _hwnd;
 
     private readonly HwndSource _source;
 
-    private Bitmap? _albumArt;
+    private Bitmap _albumArt;
 
     public TaskbarThumbnailManager(Window window)
     {
@@ -50,14 +92,22 @@ public sealed partial class TaskbarThumbnailManager : IDisposable
         _hwnd = _source.Handle;
         _source.AddHook(WndProc);
 
+        _albumArt = LoadFallbackArt();
+
         var trueVal = 1;
         DwmSetWindowAttribute(_hwnd, DWMWA_FORCE_ICONIC_REPRESENTATION, ref trueVal, sizeof(int));
         DwmSetWindowAttribute(_hwnd, DWMWA_HAS_ICONIC_BITMAP, ref trueVal, sizeof(int));
     }
 
+    private static Bitmap LoadFallbackArt()
+    {
+        var path = Path.Combine(AppContext.BaseDirectory, "Assets", "PNGs", "logo.png");
+        return new Bitmap(path);
+    }
+
     public void SetAlbumArt(Bitmap art)
     {
-        _albumArt?.Dispose();
+        _albumArt.Dispose();
         _albumArt = art;
 #pragma warning disable CA1806
         DwmInvalidateIconicBitmaps(_hwnd);
@@ -73,13 +123,16 @@ public sealed partial class TaskbarThumbnailManager : IDisposable
                 var width = (int)((lParam.ToInt64() >> 16) & 0xFFFF);
                 var height = (int)(lParam.ToInt64() & 0xFFFF);
 
-                if (_albumArt != null && width > 0 && height > 0)
+                if (width > 0 && height > 0)
                 {
-                    var scale = Math.Min((float)width / _albumArt.Width, (float)height / _albumArt.Height);
+                    var scale = Math.Min(
+                        (float)width / _albumArt.Width,
+                        (float)height / _albumArt.Height
+                    );
                     var w = Math.Max(1, (int)(_albumArt.Width * scale));
                     var h = Math.Max(1, (int)(_albumArt.Height * scale));
 
-                    var hBmp = CreateDibFromBitmap(_albumArt, w, h);
+                    var hBmp = CreateDibLetterboxed(_albumArt, w, h);
                     if (hBmp != IntPtr.Zero)
                     {
                         DwmSetIconicThumbnail(_hwnd, hBmp, 0);
@@ -111,7 +164,7 @@ public sealed partial class TaskbarThumbnailManager : IDisposable
 
     private Bitmap? RenderCropped(int targetW, int targetH)
     {
-        if (_albumArt is null || targetW <= 0 || targetH <= 0)
+        if (targetW <= 0 || targetH <= 0)
             return null;
 
         var canvas = new Bitmap(targetW, targetH, PixelFormat.Format32bppArgb);
@@ -124,78 +177,77 @@ public sealed partial class TaskbarThumbnailManager : IDisposable
 
         return canvas;
     }
-    
-    // ---
-    
 
-// dentro da classe TaskbarThumbnailManager
-
-[StructLayout(LayoutKind.Sequential)]
-private partial struct BITMAPINFOHEADER
-{
-    public uint biSize;
-    public int biWidth;
-    public int biHeight;
-    public ushort biPlanes;
-    public ushort biBitCount;
-    public uint biCompression;
-    public uint biSizeImage;
-    public int biXPelsPerMeter;
-    public int biYPelsPerMeter;
-    public uint biClrUsed;
-    public uint biClrImportant;
-}
-
-[LibraryImport("gdi32.dll", SetLastError = true)]
-private static partial IntPtr CreateDIBSection(IntPtr hdc, ref BITMAPINFOHEADER bmi, uint usage, out IntPtr ppvBits, IntPtr hSection, uint offset);
-
-// gera um HBITMAP 32bpp manualmente, sem passar por GetHbitmap()
-private IntPtr CreateDibFromBitmap(Bitmap src, int w, int h)
-{
-    var header = new BITMAPINFOHEADER
+    private IntPtr CreateDibLetterboxed(Bitmap src, int targetW, int targetH)
     {
-        biSize = (uint)Marshal.SizeOf<BITMAPINFOHEADER>(),
-        biWidth = w,
-        biHeight = -h, // negativo = top-down, bate com a ordem de linhas do LockBits
-        biPlanes = 1,
-        biBitCount = 32,
-        biCompression = 0, // BI_RGB
-    };
+        var header = new BITMAPINFOHEADER
+        {
+            biSize = (uint)Marshal.SizeOf<BITMAPINFOHEADER>(),
+            biWidth = targetW,
+            biHeight = -targetH,
+            biPlanes = 1,
+            biBitCount = 32,
+            biCompression = 0,
+        };
 
-    var hBitmap = CreateDIBSection(IntPtr.Zero, ref header, 0, out var ppvBits, IntPtr.Zero, 0);
-    if (hBitmap == IntPtr.Zero || ppvBits == IntPtr.Zero)
-        return IntPtr.Zero;
+        var hBitmap = CreateDIBSection(IntPtr.Zero, ref header, 0, out var ppvBits, IntPtr.Zero, 0);
+        if (hBitmap == IntPtr.Zero || ppvBits == IntPtr.Zero)
+        {
+            var err = Marshal.GetLastWin32Error();
+            System.Diagnostics.Debug.WriteLine(
+                $"CreateDibSection failed with error code {err}, w={targetW}, h={targetH}"
+            );
+            return IntPtr.Zero;
+        }
 
-    // resample a album art pro tamanho w x h usando GDI+ (só pra qualidade de escala)
-    using var scaled = new Bitmap(w, h, PixelFormat.Format32bppArgb);
-    using (var g = Graphics.FromImage(scaled))
-    {
-        g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBilinear;
-        g.DrawImage(src, 0, 0, w, h);
-    }
+        var stride = targetW * 4;
+        var totalBytes = stride * targetH;
 
-    var rect = new Rectangle(0, 0, w, h);
-    var data = scaled.LockBits(rect, ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
-    try
-    {
-        // Format32bppArgb do GDI+ e DIB 32bpp BI_RGB usam o mesmo layout de bytes (BGRA), copy direto
-        var byteCount = data.Stride * h;
         unsafe
         {
-            Buffer.MemoryCopy((void*)data.Scan0, (void*)ppvBits, byteCount, byteCount);
+            new Span<byte>((void*)ppvBits, totalBytes).Clear();
         }
-    }
-    finally
-    {
-        scaled.UnlockBits(data);
+
+        var scale = Math.Min((float)targetW / src.Width, (float)targetH / src.Height);
+        var w = Math.Max(1, (int)(src.Width * scale));
+        var h = Math.Max(1, (int)(src.Height * scale));
+        var offsetX = (targetW - w) / 2;
+        var offsetY = (targetH - h) / 2;
+
+        using var scaled = new Bitmap(w, h, PixelFormat.Format32bppArgb);
+        using (var g = Graphics.FromImage(scaled))
+        {
+            g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBilinear;
+            g.DrawImage(src, 0, 0, w, h);
+        }
+
+        var rect = new Rectangle(0, 0, w, h);
+        var data = scaled.LockBits(rect, ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
+        try
+        {
+            unsafe
+            {
+                var srcPtr = (byte*)data.Scan0;
+                var dstBase = (byte*)ppvBits;
+                for (var row = 0; row < h; row++)
+                {
+                    var srcRow = srcPtr + row * data.Stride;
+                    var dstRow = dstBase + (offsetY + row) * stride + offsetX * 4;
+                    Buffer.MemoryCopy(srcRow, dstRow, w * 4, w * 4);
+                }
+            }
+        }
+        finally
+        {
+            scaled.UnlockBits(data);
+        }
+
+        return hBitmap;
     }
 
-    return hBitmap;
-}
-    
     public void Dispose()
     {
         _source.RemoveHook(WndProc);
-        _albumArt?.Dispose();
+        _albumArt.Dispose();
     }
 }

@@ -13,7 +13,9 @@ Status of planned work across releases. Updated as things ship or get reprioriti
 - [x] Back button added to the top bar
 - [x] Fixed serrated/aliased text rendering (`TextRenderingMode="Grayscale"` + `TextFormattingMode="Display"`)
 - [x] Settings page: implement custom top bar
-- [X] Equalizer animation synced with actual playback state (currently loops regardless of play/pause)
+- [x] Equalizer animation synced with actual playback state (currently loops regardless of play/pause)
+- [x] SMTC integration (Windows lock screen / media overlay controls)
+- [x] Taskbar preview overhaul: show album art instead of app window preview, and show "artist - song" in the preview title instead of "YouTube Music" when a track is playing (title logic already implemented elsewhere, needs wiring into the taskbar preview)
 
 ---
 
@@ -21,8 +23,7 @@ Status of planned work across releases. Updated as things ship or get reprioriti
 
 The only things blocking GitHub release. Everything else is post-alpha.
 
-- [ ] SMTC integration (Windows lock screen / media overlay controls)
-- [ ] Taskbar preview overhaul: show album art instead of app window preview, and show "artist - song" in the preview title instead of "YouTube Music" when a track is playing (title logic already implemented elsewhere, needs wiring into the taskbar preview)
+- [ ] installer + updater
 
 ---
 
@@ -40,6 +41,7 @@ Flagship differentiators. No YTM client on the market does deep Windows integrat
 
 The deep-integration angle no competitor or Spotify can match.
 
+- [ ] Taskbar preview with blur-fill
 - [ ] Taskbar progress bar (`ITaskbarList3`)
 - [ ] Jump lists (`ICustomDestinationList`)
 - [ ] Wake lock during playback (`SetThreadExecutionState`)

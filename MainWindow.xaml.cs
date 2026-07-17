@@ -17,13 +17,10 @@ namespace YoutubeMusicDesktop;
 public partial class MainWindow : FluentWindow
 {
     private TaskbarThumbnailManager? _taskbarThumbnailManager;
-    
+
     private readonly WebViewManager _webViewManager;
 
-    private static readonly HttpClient HttpClient = new()
-    {
-        Timeout = TimeSpan.FromSeconds(10),
-    };
+    private static readonly HttpClient HttpClient = new();
 
     public MainWindow()
     {
@@ -35,7 +32,7 @@ public partial class MainWindow : FluentWindow
 
         var themeManager = new ThemeManager();
         _webViewManager = new WebViewManager(WebView, themeManager);
-        
+
         SourceInitialized += (_, _) =>
         {
             _taskbarThumbnailManager = new TaskbarThumbnailManager(this);
@@ -93,11 +90,19 @@ public partial class MainWindow : FluentWindow
                     var bytes = await HttpClient.GetByteArrayAsync(track.ThumbnailUrl);
                     using var ms = new MemoryStream(bytes);
                     var bitmap = new Bitmap(ms);
-                    Dispatcher.Invoke(() => _taskbarThumbnailManager?.SetAlbumArt(new Bitmap(bitmap)));
+                    Dispatcher.Invoke(() =>
+                        _taskbarThumbnailManager?.SetAlbumArt(new Bitmap(bitmap))
+                    );
+                    Console.WriteLine($"bytesLen={bytes?.Length ?? -1}");
+                    Console.WriteLine(
+                        $"first bytes from array: {BitConverter.ToString(bytes?.Take(10).ToArray() ?? new byte[0])}"
+                    );
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"Failed to fetch album art: {ex.Message}");
+                    Console.WriteLine(
+                        $"Failed to fetch album art: {ex.Message}, url={track.ThumbnailUrl}"
+                    );
                 }
             }
         };
