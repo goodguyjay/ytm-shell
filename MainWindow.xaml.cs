@@ -6,6 +6,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shell;
 using Wpf.Ui.Appearance;
 using Wpf.Ui.Controls;
+using YoutubeMusicDesktop.Components;
 using YoutubeMusicDesktop.Core;
 
 namespace YoutubeMusicDesktop;
@@ -25,8 +26,21 @@ public partial class MainWindow : FluentWindow
         var themeManager = new ThemeManager();
         _webViewManager = new WebViewManager(WebView, themeManager);
 
-        AppTitleBar.SetThemes(themeManager.Available, themeManager.Current);
+        AppTitleBar.SettingsClicked += (_, _) =>
+        {
+            var settings = new SettingsWindow(themeManager.Available, themeManager.Current)
+            {
+                Owner = this,
+            };
+            settings.ThemeSelectionChanged += async (_, e) =>
+            {
+                if (e.AddedItems[0] is ThemeEntry theme)
+                    await _webViewManager.ApplyThemeAsync(theme);
+            };
+            settings.ShowDialog();
+        };
 
+        // Initialize the WebView when the window is loaded
         Loaded += async (_, _) =>
         {
             try
@@ -42,10 +56,13 @@ public partial class MainWindow : FluentWindow
             }
         };
 
+        // Update the play/pause icon when the play state changes
         _webViewManager.PlayStateChanged += playing =>
             Dispatcher.Invoke(() => UpdatePlayPauseIcon(playing));
 
+        // Update the title bar when the track changes
         _webViewManager.TrackChanged += track =>
+        {
             Dispatcher.Invoke(() =>
                 AppTitleBar.SetTitle(
                     string.IsNullOrEmpty(track.Artist)
@@ -53,12 +70,24 @@ public partial class MainWindow : FluentWindow
                         : $"{track.Title} - {track.Artist}"
                 )
             );
+        };
 
+        // Discord Rich Presence
         var discord = new DiscordService();
         _webViewManager.TrackChanged += discord.OnTrackChanged;
         _webViewManager.PlayStateChanged += discord.OnPlayStateChanged;
-
         Closed += (_, _) => discord.Dispose();
+
+        // Navigation buttons
+        AppTitleBar.BackRequested += (_, _) => _webViewManager.GoBack();
+        AppTitleBar.ForwardRequested += (_, _) => _webViewManager.GoForward();
+
+        _webViewManager.PageNavigated += () =>
+        {
+            Dispatcher.Invoke(() =>
+                AppTitleBar.SetNavState(_webViewManager.CanGoBack, _webViewManager.CanGoForward)
+            );
+        };
 
         SetupTaskbar();
     }

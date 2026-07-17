@@ -1,18 +1,25 @@
 ﻿<Application
-  x:Class="YoutubeMusicDesktop.App"
-  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-  xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
-  StartupUri="MainWindow.xaml"
->
-  <Application.Resources>
-    <ResourceDictionary>
-      <ResourceDictionary.MergedDictionaries>
-        <ui:ThemesDictionary Theme="Dark" />
-        <ui:ControlsDictionary />
-        <ResourceDictionary Source="Components/AppIcon.xaml" />
-        <ResourceDictionary Source="Components/TaskbarIcons.xaml" />
-      </ResourceDictionary.MergedDictionaries>
-    </ResourceDictionary>
-  </Application.Resources>
+    StartupUri="MainWindow.xaml"
+    x:Class="YoutubeMusicDesktop.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ui:ThemesDictionary Theme="Dark" />
+                <ui:ControlsDictionary />
+                <!--  todo: move these icons into Resources/Icons  -->
+                <ResourceDictionary Source="Components/AppIcon.xaml" />
+                <ResourceDictionary Source="Components/TaskbarIcons.xaml" />
+                <ResourceDictionary Source="Resources/Icons/Config.xaml" />
+                <ResourceDictionary Source="Resources/Icons/Nav.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <Style TargetType="Window">
+                <Setter Property="TextOptions.TextFormattingMode" Value="Ideal" />
+                <Setter Property="TextOptions.TextRenderingMode" Value="Grayscale" />
+            </Style>
+        </ResourceDictionary>
+    </Application.Resources>
 </Application>

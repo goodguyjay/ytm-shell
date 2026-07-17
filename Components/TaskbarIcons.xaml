@@ -1,186 +1,203 @@
-﻿<ResourceDictionary
-  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
->
-  <DrawingImage x:Key="TaskbarPreviousIcon">
-    <DrawingImage.Drawing>
-      <DrawingGroup>
-        <GeometryDrawing Brush="White">
-          <GeometryDrawing.Pen>
-            <Pen
-              Brush="White"
-              EndLineCap="Round"
-              LineJoin="Round"
-              StartLineCap="Round"
-              Thickness="1"
-            />
-          </GeometryDrawing.Pen>
-          <GeometryDrawing.Geometry>
-            <GeometryGroup>
-              <RectangleGeometry RadiusX="0.5" RadiusY="0.5" Rect="3,3,3,16" />
-              <PathGeometry>
-                <PathFigure IsClosed="true" StartPoint="17,3">
-                  <LineSegment Point="17,19" />
-                  <LineSegment Point="7,11" />
-                </PathFigure>
-              </PathGeometry>
-            </GeometryGroup>
-          </GeometryDrawing.Geometry>
-        </GeometryDrawing>
-      </DrawingGroup>
-    </DrawingImage.Drawing>
-  </DrawingImage>
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <DrawingImage x:Key="TaskbarPreviousIcon">
+        <DrawingImage.Drawing>
+            <DrawingGroup>
+                <GeometryDrawing Brush="White">
+                    <GeometryDrawing.Pen>
+                        <Pen
+                            Brush="White"
+                            EndLineCap="Round"
+                            LineJoin="Round"
+                            StartLineCap="Round"
+                            Thickness="1" />
+                    </GeometryDrawing.Pen>
+                    <GeometryDrawing.Geometry>
+                        <GeometryGroup>
+                            <RectangleGeometry
+                                RadiusX="0.5"
+                                RadiusY="0.5"
+                                Rect="3,3,3,16" />
+                            <PathGeometry>
+                                <PathFigure IsClosed="true" StartPoint="17,3">
+                                    <LineSegment Point="17,19" />
+                                    <LineSegment Point="7,11" />
+                                </PathFigure>
+                            </PathGeometry>
+                        </GeometryGroup>
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+            </DrawingGroup>
+        </DrawingImage.Drawing>
+    </DrawingImage>
 
-  <DrawingImage x:Key="TaskbarPlayIcon">
-    <DrawingImage.Drawing>
-      <DrawingGroup>
-        <GeometryDrawing Brush="White">
-          <GeometryDrawing.Pen>
-            <Pen
-              Brush="White"
-              EndLineCap="Round"
-              LineJoin="Round"
-              StartLineCap="Round"
-              Thickness="1"
-            />
-          </GeometryDrawing.Pen>
-          <GeometryDrawing.Geometry>
-            <PathGeometry>
-              <PathFigure IsClosed="true" StartPoint="6,3">
-                <LineSegment Point="6,19" />
-                <LineSegment Point="17,11" />
-              </PathFigure>
-            </PathGeometry>
-          </GeometryDrawing.Geometry>
-        </GeometryDrawing>
-      </DrawingGroup>
-    </DrawingImage.Drawing>
-  </DrawingImage>
+    <DrawingImage x:Key="TaskbarPlayIcon">
+        <DrawingImage.Drawing>
+            <DrawingGroup>
+                <GeometryDrawing Brush="White">
+                    <GeometryDrawing.Pen>
+                        <Pen
+                            Brush="White"
+                            EndLineCap="Round"
+                            LineJoin="Round"
+                            StartLineCap="Round"
+                            Thickness="1" />
+                    </GeometryDrawing.Pen>
+                    <GeometryDrawing.Geometry>
+                        <PathGeometry>
+                            <PathFigure IsClosed="true" StartPoint="6,3">
+                                <LineSegment Point="6,19" />
+                                <LineSegment Point="17,11" />
+                            </PathFigure>
+                        </PathGeometry>
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+            </DrawingGroup>
+        </DrawingImage.Drawing>
+    </DrawingImage>
 
-  <DrawingImage x:Key="TaskbarPauseIcon">
-    <DrawingImage.Drawing>
-      <DrawingGroup>
-        <GeometryDrawing Brush="White">
-          <GeometryDrawing.Geometry>
-            <GeometryGroup>
-              <RectangleGeometry RadiusX="0.8" RadiusY="0.8" Rect="5,3,4,16" />
-              <RectangleGeometry RadiusX="0.8" RadiusY="0.8" Rect="13,3,4,16" />
-            </GeometryGroup>
-          </GeometryDrawing.Geometry>
-        </GeometryDrawing>
-      </DrawingGroup>
-    </DrawingImage.Drawing>
-  </DrawingImage>
+    <DrawingImage x:Key="TaskbarPauseIcon">
+        <DrawingImage.Drawing>
+            <DrawingGroup>
+                <GeometryDrawing Brush="White">
+                    <GeometryDrawing.Geometry>
+                        <GeometryGroup>
+                            <RectangleGeometry
+                                RadiusX="0.8"
+                                RadiusY="0.8"
+                                Rect="5,3,4,16" />
+                            <RectangleGeometry
+                                RadiusX="0.8"
+                                RadiusY="0.8"
+                                Rect="13,3,4,16" />
+                        </GeometryGroup>
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+            </DrawingGroup>
+        </DrawingImage.Drawing>
+    </DrawingImage>
 
-  <DrawingImage x:Key="TaskbarNextIcon">
-    <DrawingImage.Drawing>
-      <DrawingGroup>
-        <GeometryDrawing Brush="White">
-          <GeometryDrawing.Pen>
-            <Pen
-              Brush="White"
-              EndLineCap="Round"
-              LineJoin="Round"
-              StartLineCap="Round"
-              Thickness="1"
-            />
-          </GeometryDrawing.Pen>
-          <GeometryDrawing.Geometry>
-            <GeometryGroup>
-              <PathGeometry>
-                <PathFigure IsClosed="true" StartPoint="5,3">
-                  <LineSegment Point="5,19" />
-                  <LineSegment Point="15,11" />
-                </PathFigure>
-              </PathGeometry>
-              <RectangleGeometry RadiusX="0.5" RadiusY="0.5" Rect="16,3,3,16" />
-            </GeometryGroup>
-          </GeometryDrawing.Geometry>
-        </GeometryDrawing>
-      </DrawingGroup>
-    </DrawingImage.Drawing>
-  </DrawingImage>
+    <DrawingImage x:Key="TaskbarNextIcon">
+        <DrawingImage.Drawing>
+            <DrawingGroup>
+                <GeometryDrawing Brush="White">
+                    <GeometryDrawing.Pen>
+                        <Pen
+                            Brush="White"
+                            EndLineCap="Round"
+                            LineJoin="Round"
+                            StartLineCap="Round"
+                            Thickness="1" />
+                    </GeometryDrawing.Pen>
+                    <GeometryDrawing.Geometry>
+                        <GeometryGroup>
+                            <PathGeometry>
+                                <PathFigure IsClosed="true" StartPoint="5,3">
+                                    <LineSegment Point="5,19" />
+                                    <LineSegment Point="15,11" />
+                                </PathFigure>
+                            </PathGeometry>
+                            <RectangleGeometry
+                                RadiusX="0.5"
+                                RadiusY="0.5"
+                                Rect="16,3,3,16" />
+                        </GeometryGroup>
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+            </DrawingGroup>
+        </DrawingImage.Drawing>
+    </DrawingImage>
 
-  <DrawingImage x:Key="WinMinimizeIcon">
-    <DrawingImage.Drawing>
-      <DrawingGroup>
-        <GeometryDrawing>
-          <GeometryDrawing.Pen>
-            <Pen Brush="White" EndLineCap="Round" StartLineCap="Round" Thickness="1.2" />
-          </GeometryDrawing.Pen>
-          <GeometryDrawing.Geometry>
-            <LineGeometry StartPoint="4,11" EndPoint="16,11" />
-          </GeometryDrawing.Geometry>
-        </GeometryDrawing>
-      </DrawingGroup>
-    </DrawingImage.Drawing>
-  </DrawingImage>
+    <DrawingImage x:Key="WinMinimizeIcon">
+        <DrawingImage.Drawing>
+            <DrawingGroup>
+                <GeometryDrawing>
+                    <GeometryDrawing.Pen>
+                        <Pen
+                            Brush="White"
+                            EndLineCap="Round"
+                            StartLineCap="Round"
+                            Thickness="1.2" />
+                    </GeometryDrawing.Pen>
+                    <GeometryDrawing.Geometry>
+                        <LineGeometry StartPoint="4,11" EndPoint="16,11" />
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+            </DrawingGroup>
+        </DrawingImage.Drawing>
+    </DrawingImage>
 
-  <DrawingImage x:Key="WinMaximizeIcon">
-    <DrawingImage.Drawing>
-      <DrawingGroup>
-        <GeometryDrawing>
-          <GeometryDrawing.Pen>
-            <Pen Brush="White" LineJoin="Round" Thickness="1.2" />
-          </GeometryDrawing.Pen>
-          <GeometryDrawing.Geometry>
-            <RectangleGeometry RadiusX="0.5" RadiusY="0.5" Rect="4,4,13,13" />
-          </GeometryDrawing.Geometry>
-        </GeometryDrawing>
-      </DrawingGroup>
-    </DrawingImage.Drawing>
-  </DrawingImage>
+    <DrawingImage x:Key="WinMaximizeIcon">
+        <DrawingImage.Drawing>
+            <DrawingGroup>
+                <GeometryDrawing>
+                    <GeometryDrawing.Pen>
+                        <Pen
+                            Brush="White"
+                            LineJoin="Round"
+                            Thickness="1.2" />
+                    </GeometryDrawing.Pen>
+                    <GeometryDrawing.Geometry>
+                        <RectangleGeometry
+                            RadiusX="0.5"
+                            RadiusY="0.5"
+                            Rect="4,4,13,13" />
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+            </DrawingGroup>
+        </DrawingImage.Drawing>
+    </DrawingImage>
 
-  <DrawingImage x:Key="WinRestoreIcon">
-    <DrawingImage.Drawing>
-      <DrawingGroup>
-        <GeometryDrawing>
-          <GeometryDrawing.Pen>
-            <Pen
-              Brush="White"
-              EndLineCap="Round"
-              LineJoin="Round"
-              StartLineCap="Round"
-              Thickness="1.2"
-            />
-          </GeometryDrawing.Pen>
-          <GeometryDrawing.Geometry>
-            <GeometryGroup>
-              <PathGeometry>
-                <PathFigure StartPoint="7,6">
-                  <LineSegment Point="17,6" />
-                  <LineSegment Point="17,16" />
-                </PathFigure>
-              </PathGeometry>
-              <RectangleGeometry RadiusX="0.8" RadiusY="0.8" Rect="4,9,10,10" />
-            </GeometryGroup>
-          </GeometryDrawing.Geometry>
-        </GeometryDrawing>
-      </DrawingGroup>
-    </DrawingImage.Drawing>
-  </DrawingImage>
+    <DrawingImage x:Key="WinRestoreIcon">
+        <DrawingImage.Drawing>
+            <DrawingGroup>
+                <GeometryDrawing>
+                    <GeometryDrawing.Pen>
+                        <Pen
+                            Brush="White"
+                            EndLineCap="Round"
+                            LineJoin="Round"
+                            StartLineCap="Round"
+                            Thickness="1.2" />
+                    </GeometryDrawing.Pen>
+                    <GeometryDrawing.Geometry>
+                        <GeometryGroup>
+                            <PathGeometry>
+                                <PathFigure StartPoint="7,6">
+                                    <LineSegment Point="17,6" />
+                                    <LineSegment Point="17,16" />
+                                </PathFigure>
+                            </PathGeometry>
+                            <RectangleGeometry
+                                RadiusX="0.8"
+                                RadiusY="0.8"
+                                Rect="4,9,10,10" />
+                        </GeometryGroup>
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+            </DrawingGroup>
+        </DrawingImage.Drawing>
+    </DrawingImage>
 
-  <DrawingImage x:Key="WinCloseIcon">
-    <DrawingImage.Drawing>
-      <DrawingGroup>
-        <GeometryDrawing>
-          <GeometryDrawing.Pen>
-            <Pen
-              Brush="White"
-              EndLineCap="Round"
-              LineJoin="Round"
-              StartLineCap="Round"
-              Thickness="1.2"
-            />
-          </GeometryDrawing.Pen>
-          <GeometryDrawing.Geometry>
-            <GeometryGroup>
-              <LineGeometry StartPoint="5,5" EndPoint="15,15" />
-              <LineGeometry StartPoint="15,5" EndPoint="5,15" />
-            </GeometryGroup>
-          </GeometryDrawing.Geometry>
-        </GeometryDrawing>
-      </DrawingGroup>
-    </DrawingImage.Drawing>
-  </DrawingImage>
+    <DrawingImage x:Key="WinCloseIcon">
+        <DrawingImage.Drawing>
+            <DrawingGroup>
+                <GeometryDrawing>
+                    <GeometryDrawing.Pen>
+                        <Pen
+                            Brush="White"
+                            EndLineCap="Round"
+                            LineJoin="Round"
+                            StartLineCap="Round"
+                            Thickness="1.2" />
+                    </GeometryDrawing.Pen>
+                    <GeometryDrawing.Geometry>
+                        <GeometryGroup>
+                            <LineGeometry StartPoint="5,5" EndPoint="15,15" />
+                            <LineGeometry StartPoint="15,5" EndPoint="5,15" />
+                        </GeometryGroup>
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+            </DrawingGroup>
+        </DrawingImage.Drawing>
+    </DrawingImage>
 </ResourceDictionary>

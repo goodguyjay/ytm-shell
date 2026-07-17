@@ -1,8 +1,8 @@
 ﻿# ytm-shell
 
-A native Windows desktop shell for YouTube Music, built with WPF and WebView2. Replaces the browser tab with a proper desktop experience: liquid glass UI, taskbar controls, keyboard shortcuts, and a theming system designed to get out of the way.
+## i'll fix this readme later ;) scope has changed drastically
 
-![ytm-shell screenshot](Docs/pre-alpha.png)
+A native Windows desktop shell for YouTube Music, built with WPF and WebView2. Replaces the browser tab with a proper desktop experience: liquid glass UI, taskbar controls, keyboard shortcuts, and a theming system designed to get out of the way.
 
 ---
 

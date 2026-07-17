@@ -8,14 +8,21 @@ namespace YoutubeMusicDesktop.Core;
 public sealed class WebViewManager(WebView2 webView, ThemeManager themeManager)
 {
     private ScriptInjector? _scriptInjector;
+
     private CssInjector? _cssInjector;
 
 #if DEBUG
     private int _navigationCount;
 #endif
+    public bool CanGoBack => webView.CoreWebView2.CanGoBack;
+
+    public bool CanGoForward => webView.CoreWebView2.CanGoForward;
 
     public event Action<bool>? PlayStateChanged;
+
     public event Action<TrackInfo>? TrackChanged;
+
+    public event Action? PageNavigated;
 
     public async Task InitializeAsync()
     {
@@ -25,9 +32,15 @@ public sealed class WebViewManager(WebView2 webView, ThemeManager themeManager)
             "WebView2"
         );
 
+        var options = new CoreWebView2EnvironmentOptions()
+        {
+            ScrollBarStyle = CoreWebView2ScrollbarStyle.FluentOverlay,
+        };
+
         var env = await CoreWebView2Environment.CreateAsync(
             browserExecutableFolder: null,
-            userDataFolder: userDataFolder
+            userDataFolder: userDataFolder,
+            options: options
         );
 
         await webView.EnsureCoreWebView2Async(env);
@@ -48,6 +61,8 @@ public sealed class WebViewManager(WebView2 webView, ThemeManager themeManager)
         await _scriptInjector.RegisterAllAsync();
         await _cssInjector.RegisterAsync();
 
+        webView.CoreWebView2.HistoryChanged += (_, _) => PageNavigated?.Invoke();
+
         webView.CoreWebView2.NavigationCompleted += OnNavigationCompleted;
         webView.CoreWebView2.WebMessageReceived += OnWebMessageReceived;
         webView.CoreWebView2.Navigate("https://music.youtube.com/");
@@ -57,6 +72,7 @@ public sealed class WebViewManager(WebView2 webView, ThemeManager themeManager)
     {
         if (_cssInjector is null)
             return;
+        await _cssInjector.ClearAsync();
         await themeManager.ApplyAsync(theme);
         _cssInjector.SetTheme(theme.FileName);
         await _cssInjector.InjectAsync();
@@ -79,6 +95,10 @@ public sealed class WebViewManager(WebView2 webView, ThemeManager themeManager)
     public Task NextAsync() =>
         webView.CoreWebView2.ExecuteScriptAsync("window.__ytmControls?.next()");
 
+    public void GoBack() => webView.CoreWebView2.GoBack();
+
+    public void GoForward() => webView.CoreWebView2.GoForward();
+
     private async void OnNavigationCompleted(
         object? sender,
         CoreWebView2NavigationCompletedEventArgs e
@@ -92,6 +112,8 @@ public sealed class WebViewManager(WebView2 webView, ThemeManager themeManager)
 #endif
             if (e.IsSuccess)
                 await _cssInjector!.InjectAsync();
+
+            PageNavigated?.Invoke();
         }
         catch (Exception ex)
         {
@@ -114,6 +136,7 @@ public sealed class WebViewManager(WebView2 webView, ThemeManager themeManager)
 
         try
         {
+            // update: yeah, i dunno about this. might be leaking memory.
             // let the damn gc do its work
             var doc = JsonDocument.Parse(json);
             var root = doc.RootElement;

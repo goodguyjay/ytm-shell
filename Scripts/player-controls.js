@@ -22,6 +22,13 @@
     },
 };
 
+if ('mediaSession' in navigator) {
+    navigator.mediaSession.setActionHandler('play', () => window.__ytmControls.togglePlayPause());
+    navigator.mediaSession.setActionHandler('pause', () => window.__ytmControls.togglePlayPause());
+    navigator.mediaSession.setActionHandler('previoustrack', () => window.__ytmControls.previous());
+    navigator.mediaSession.setActionHandler('nexttrack', () => window.__ytmControls.next());
+}
+
 document.addEventListener('keydown', (e) => {
     if (e.code !== 'Space') return;
     const tag = e.target?.tagName;
