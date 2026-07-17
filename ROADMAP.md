@@ -34,6 +34,8 @@ Flagship differentiators. No YTM client on the market does deep Windows integrat
 - [ ] **Audio normalization** (RMS/LUFS). Flagship feature, but effort vs. impact needs evaluation against Last.fm and clipboard URL detection before locking in an approach (Web Audio API injection vs. WASAPI loopback).
 - [ ] Last.fm scrobbling
 - [ ] Clipboard URL detection (opt-in)
+- [ ] Fix window preview on the taskbar, It's pretty inconsistent right now.
+- [ ] Do something about quick track changes unnecessarily changing the taskbar album cover. I don't think anyone really appreciates unnecessary network requests (google specially).
 
 ---
 

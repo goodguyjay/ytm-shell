@@ -16,6 +16,8 @@ public sealed partial class TaskbarThumbnailManager : IDisposable
     private const int DWMWA_FORCE_ICONIC_REPRESENTATION = 7;
     private const int DWMWA_HAS_ICONIC_BITMAP = 10;
 
+    private const uint PW_RENDERFULLCONTENT = 0x00000002;
+
     [LibraryImport("dwmapi.dll")]
     private static partial int DwmSetWindowAttribute(
         IntPtr hwnd,
@@ -42,9 +44,38 @@ public sealed partial class TaskbarThumbnailManager : IDisposable
     [return: MarshalAs(UnmanagedType.Bool)]
     private static partial bool DeleteObject(IntPtr hObject);
 
+    [LibraryImport("gdi32.dll", SetLastError = true)]
+    private static partial IntPtr CreateDIBSection(
+        IntPtr hdc,
+        ref BITMAPINFOHEADER bmi,
+        uint usage,
+        out IntPtr ppvBits,
+        IntPtr hSection,
+        uint offset
+    );
+
     [LibraryImport("user32.dll")]
     [return: MarshalAs(UnmanagedType.Bool)]
     private static partial bool GetClientRect(IntPtr hwnd, out RECT rect);
+
+    [LibraryImport("user32.dll")]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    private static partial bool PrintWindow(IntPtr hwnd, IntPtr hdcBlt, uint flags);
+
+    [LibraryImport("gdi32.dll")]
+    private static partial IntPtr CreateCompatibleDC(IntPtr hdc);
+
+    [LibraryImport("gdi32.dll")]
+    private static partial IntPtr SelectObject(IntPtr hdc, IntPtr hObject);
+
+    [LibraryImport("gdi32.dll")]
+    private static partial int DeleteDC(IntPtr hdc);
+
+    [LibraryImport("user32.dll")]
+    private static partial IntPtr GetDC(IntPtr hwnd);
+
+    [LibraryImport("user32.dll")]
+    private static partial int ReleaseDC(IntPtr hwnd, IntPtr hdc);
 
     private struct RECT
     {
@@ -69,16 +100,6 @@ public sealed partial class TaskbarThumbnailManager : IDisposable
         public uint biClrUsed;
         public uint biClrImportant;
     }
-
-    [LibraryImport("gdi32.dll", SetLastError = true)]
-    private static partial IntPtr CreateDIBSection(
-        IntPtr hdc,
-        ref BITMAPINFOHEADER bmi,
-        uint usage,
-        out IntPtr ppvBits,
-        IntPtr hSection,
-        uint offset
-    );
 
     private readonly IntPtr _hwnd;
 
@@ -146,12 +167,17 @@ public sealed partial class TaskbarThumbnailManager : IDisposable
             case WM_DWMSENDICONICLIVEPREVIEWBITMAP:
             {
                 GetClientRect(_hwnd, out var rect);
-                using var preview = RenderCropped(rect.Right - rect.Left, rect.Bottom - rect.Top);
-                if (preview != null)
+                var w = rect.Right - rect.Left;
+                var h = rect.Bottom - rect.Top;
+
+                if (w > 0 && h > 0)
                 {
-                    var hBmp = preview.GetHbitmap();
-                    DwmSetIconicLivePreviewBitmap(_hwnd, hBmp, IntPtr.Zero, 0);
-                    DeleteObject(hBmp);
+                    var hBmp = CaptureWindowSnapshot(w, h);
+                    if (hBmp != IntPtr.Zero)
+                    {
+                        DwmSetIconicLivePreviewBitmap(_hwnd, hBmp, IntPtr.Zero, 0);
+                        DeleteObject(hBmp);
+                    }
                 }
 
                 handled = true;
@@ -162,20 +188,38 @@ public sealed partial class TaskbarThumbnailManager : IDisposable
         return IntPtr.Zero;
     }
 
-    private Bitmap? RenderCropped(int targetW, int targetH)
+    private IntPtr CaptureWindowSnapshot(int width, int height)
     {
-        if (targetW <= 0 || targetH <= 0)
-            return null;
+        var header = new BITMAPINFOHEADER
+        {
+            biSize = (uint)Marshal.SizeOf<BITMAPINFOHEADER>(),
+            biWidth = width,
+            biHeight = -height,
+            biPlanes = 1,
+            biBitCount = 32,
+            biCompression = 0,
+        };
 
-        var canvas = new Bitmap(targetW, targetH, PixelFormat.Format32bppArgb);
-        using var g = Graphics.FromImage(canvas);
+        var screenDc = GetDC(IntPtr.Zero);
+        var hBitmap = CreateDIBSection(screenDc, ref header, 0, out var ppvBits, IntPtr.Zero, 0);
+        ReleaseDC(IntPtr.Zero, screenDc);
 
-        var scale = Math.Max((float)targetW / _albumArt.Width, (float)targetH / _albumArt.Height);
-        var w = (int)(_albumArt.Width * scale);
-        var h = (int)(_albumArt.Height * scale);
-        g.DrawImage(_albumArt, (targetW - w) / 2, (targetH - h) / 2, w, h);
+        if (hBitmap == IntPtr.Zero || ppvBits == IntPtr.Zero)
+            return IntPtr.Zero;
 
-        return canvas;
+        var memDc = CreateCompatibleDC(IntPtr.Zero);
+        var oldObj = SelectObject(memDc, hBitmap);
+
+        var ok = PrintWindow(_hwnd, memDc, PW_RENDERFULLCONTENT);
+
+        SelectObject(memDc, oldObj);
+        DeleteDC(memDc);
+
+        if (ok)
+            return hBitmap;
+
+        DeleteObject(hBitmap);
+        return IntPtr.Zero;
     }
 
     private IntPtr CreateDibLetterboxed(Bitmap src, int targetW, int targetH)
