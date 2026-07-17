@@ -1,4 +1,7 @@
-﻿using System.Windows;
+﻿using System.Drawing;
+using System.IO;
+using System.Net.Http;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -13,7 +16,14 @@ namespace YoutubeMusicDesktop;
 
 public partial class MainWindow : FluentWindow
 {
+    private TaskbarThumbnailManager? _taskbarThumbnailManager;
+    
     private readonly WebViewManager _webViewManager;
+
+    private static readonly HttpClient HttpClient = new()
+    {
+        Timeout = TimeSpan.FromSeconds(10),
+    };
 
     public MainWindow()
     {
@@ -25,6 +35,11 @@ public partial class MainWindow : FluentWindow
 
         var themeManager = new ThemeManager();
         _webViewManager = new WebViewManager(WebView, themeManager);
+        
+        SourceInitialized += (_, _) =>
+        {
+            _taskbarThumbnailManager = new TaskbarThumbnailManager(this);
+        };
 
         AppTitleBar.SettingsClicked += (_, _) =>
         {
@@ -61,7 +76,7 @@ public partial class MainWindow : FluentWindow
             Dispatcher.Invoke(() => UpdatePlayPauseIcon(playing));
 
         // Update the title bar when the track changes
-        _webViewManager.TrackChanged += track =>
+        _webViewManager.TrackChanged += async track =>
         {
             Dispatcher.Invoke(() =>
                 AppTitleBar.SetTitle(
@@ -70,6 +85,21 @@ public partial class MainWindow : FluentWindow
                         : $"{track.Title} - {track.Artist}"
                 )
             );
+
+            if (!string.IsNullOrEmpty(track.ThumbnailUrl))
+            {
+                try
+                {
+                    var bytes = await HttpClient.GetByteArrayAsync(track.ThumbnailUrl);
+                    using var ms = new MemoryStream(bytes);
+                    var bitmap = new Bitmap(ms);
+                    Dispatcher.Invoke(() => _taskbarThumbnailManager?.SetAlbumArt(new Bitmap(bitmap)));
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Failed to fetch album art: {ex.Message}");
+                }
+            }
         };
 
         // Discord Rich Presence
