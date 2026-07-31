@@ -12,6 +12,50 @@ function setupPlayerStateListener() {
         }
     });
 
+    let __lastVideoId = null;
+    let __lastThumbnailUrl = null;
+
+    api.addEventListener('onVideoDataChange', () => {
+        const data = api.getVideoData?.();
+        if (!data?.title) 
+            return;
+        
+        const videoId = data.video_id ?? data.videoId;
+        const thumbImg = document.querySelector('img.image.style-scope.ytmusic-player-bar');
+        let thumbnailUrl = '';
+        
+        if (thumbImg?.src) {
+            thumbnailUrl = thumbImg.src.replace(/=w\d+-h\d+[^"]*$/, '=w512-h512-l90-rj');
+        }
+        if (!thumbnailUrl && videoId) {
+            thumbnailUrl = `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`;
+        }
+        
+        if (videoId === __lastVideoId && thumbnailUrl === __lastThumbnailUrl)
+            return;
+        __lastVideoId = videoId;
+        __lastThumbnailUrl = thumbnailUrl;
+
+        if ('mediaSession' in navigator) {
+            navigator.mediaSession.metadata = new MediaMetadata({
+                title: data.title,
+                artist: data.author ?? '',
+                artwork: thumbnailUrl ? [{ src: thumbnailUrl, sizes: '512x512', type: 'image/jpeg' }] : []
+            });
+        }
+        
+        window.chrome.webview.postMessage({
+            type: 'trackChange',
+            title: data.title,
+            artist: data.author ?? '',
+            thumbnailUrl: thumbnailUrl,
+            durationSeconds: parseInt(data.lengthSeconds ?? '0')
+        });
+        
+        console.log(`track change: ${data.title}`);
+        console.log(`thumbnail: ${thumbnailUrl}`);
+    });
+
     return true;
 }
 
@@ -35,49 +79,6 @@ if (document.readyState === 'loading') {
     waitForPlayer();
 }
 
-function setupPlayerStateListener() {
-    const api = document.querySelector('ytmusic-player')?.playerApi;
-    if (!api) return false;
-
-    api.addEventListener('onStateChange', (state) => {
-        window.chrome.webview.postMessage({
-            type: 'playState', playing: state === 1, state: state
-        });
-    });
-
-    api.addEventListener('onVideoDataChange', () => {
-        const data = api.getVideoData?.();
-        if (!data?.title) return;
-        const videoId = data.video_id ?? data.videoId;
-        const thumbImg = document.querySelector('img.image.style-scope.ytmusic-player-bar');
-        let thumbnailUrl = '';
-        if (thumbImg?.src) {
-            thumbnailUrl = thumbImg.src.replace(/=w\d+-h\d+[^"]*$/, '=w512-h512-l90-rj');
-        }
-        if (!thumbnailUrl && videoId) {
-            thumbnailUrl = `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`;
-        }
-
-        if ('mediaSession' in navigator) {
-            navigator.mediaSession.metadata = new MediaMetadata({
-                title: data.title,
-                artist: data.author ?? '',
-                artwork: thumbnailUrl ? [{ src: thumbnailUrl, sizes: '512x512', type: 'image/jpeg' }] : []
-            });
-        }
-
-        window.chrome.webview.postMessage({
-            type: 'trackChange',
-            title: data.title,
-            artist: data.author ?? '',
-            thumbnailUrl: thumbnailUrl,
-            durationSeconds: parseInt(data.lengthSeconds ?? '0')
-        });
-    });
-
-    return true;
-}
-
 let __positionInterval = null;
 
 function stopPositionUpdates() {
@@ -88,7 +89,7 @@ function stopPositionUpdates() {
 }
 
 function startPositionUpdates(api) {
-    stopPositionUpdates();c
+    stopPositionUpdates();
     __positionInterval = setInterval(() => {
         if (!('mediaSession' in navigator)) return;
         const duration = api.getDuration?.() ?? 0;
